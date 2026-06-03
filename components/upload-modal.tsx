@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { Upload, X, FileText, Loader2 } from 'lucide-react'
+import { Upload, X, FileText, Loader2, Presentation } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 interface UploadModalProps {
@@ -10,6 +10,13 @@ interface UploadModalProps {
   onUploadSuccess: () => void
 }
 
+const ACCEPTED_TYPES = '.ppt,.pptx,.pdf'
+const ACCEPTED_MIME_TYPES = [
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/pdf',
+]
+
 export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalProps) {
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
@@ -17,6 +24,21 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
   const [uploading, setUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState('')
+
+  const isValidFile = (f: File) => {
+    const fileName = f.name.toLowerCase()
+    const hasValidExtension = fileName.endsWith('.ppt') || fileName.endsWith('.pptx') || fileName.endsWith('.pdf')
+    const hasValidType = ACCEPTED_MIME_TYPES.includes(f.type)
+    return hasValidExtension || hasValidType
+  }
+
+  const getFileIcon = (f: File) => {
+    const fileName = f.name.toLowerCase()
+    if (fileName.endsWith('.ppt') || fileName.endsWith('.pptx')) {
+      return <Presentation className="h-8 w-8 text-[#F5A623]" />
+    }
+    return <FileText className="h-8 w-8 text-[#3AAAE1]" />
+  }
 
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -35,26 +57,26 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
     setError('')
 
     const droppedFile = e.dataTransfer.files[0]
-    if (droppedFile && droppedFile.type === 'application/pdf') {
+    if (droppedFile && isValidFile(droppedFile)) {
       setFile(droppedFile)
       if (!title) {
-        setTitle(droppedFile.name.replace('.pdf', ''))
+        setTitle(droppedFile.name.replace(/\.(pptx?|pdf)$/i, ''))
       }
     } else {
-      setError('Please upload a PDF file')
+      setError('Please upload a PowerPoint (.ppt, .pptx) or PDF file')
     }
   }, [title])
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError('')
     const selectedFile = e.target.files?.[0]
-    if (selectedFile && selectedFile.type === 'application/pdf') {
+    if (selectedFile && isValidFile(selectedFile)) {
       setFile(selectedFile)
       if (!title) {
-        setTitle(selectedFile.name.replace('.pdf', ''))
+        setTitle(selectedFile.name.replace(/\.(pptx?|pdf)$/i, ''))
       }
     } else if (selectedFile) {
-      setError('Please upload a PDF file')
+      setError('Please upload a PowerPoint (.ppt, .pptx) or PDF file')
     }
   }
 
@@ -124,7 +146,7 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
         >
           {file ? (
             <div className="flex items-center justify-center gap-3">
-              <FileText className="h-8 w-8 text-[#3AAAE1]" />
+              {getFileIcon(file)}
               <div className="text-left">
                 <p className="font-medium text-foreground">{file.name}</p>
                 <p className="text-sm text-muted-foreground">
@@ -142,18 +164,18 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
             <>
               <Upload className="h-12 w-12 text-[#3AAAE1] mx-auto mb-4" />
               <p className="text-foreground mb-2">
-                Drag and drop your PDF here, or{' '}
+                Drag and drop your file here, or{' '}
                 <label className="text-[#3AAAE1] cursor-pointer hover:underline">
                   browse
                   <input
                     type="file"
-                    accept="application/pdf"
+                    accept={ACCEPTED_TYPES}
                     className="hidden"
                     onChange={handleFileSelect}
                   />
                 </label>
               </p>
-              <p className="text-sm text-muted-foreground">PDF files only</p>
+              <p className="text-sm text-muted-foreground">PowerPoint (.ppt, .pptx) or PDF files</p>
             </>
           )}
         </div>

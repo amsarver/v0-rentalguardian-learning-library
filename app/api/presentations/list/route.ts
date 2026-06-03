@@ -7,13 +7,26 @@ export async function GET() {
       prefix: 'presentations/',
     })
 
-    const presentations = blobs.map((blob) => ({
-      pathname: blob.pathname,
-      filename: blob.pathname.split('/').pop() || 'unknown',
-      title: blob.pathname.split('/').pop()?.replace(/^\d+-/, '').replace('.pdf', '') || 'Untitled',
-      uploadedAt: blob.uploadedAt,
-      size: blob.size,
-    }))
+    const presentations = blobs.map((blob) => {
+      const filename = blob.pathname.split('/').pop() || 'unknown'
+      const isPdf = filename.toLowerCase().endsWith('.pdf')
+      const fileType = isPdf ? 'pdf' : 'powerpoint'
+      
+      // Clean up the title by removing timestamp prefix and extension
+      const cleanTitle = filename
+        .replace(/^\d+-/, '')
+        .replace(/\.(pptx?|pdf)$/i, '')
+
+      return {
+        url: blob.url,
+        pathname: blob.pathname,
+        filename,
+        title: cleanTitle || 'Untitled',
+        uploadedAt: blob.uploadedAt,
+        size: blob.size,
+        fileType,
+      }
+    })
 
     return NextResponse.json({ presentations })
   } catch (error) {

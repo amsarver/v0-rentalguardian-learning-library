@@ -5,13 +5,15 @@ import { Plus, BookOpen, Loader2, Library } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { UploadModal } from '@/components/upload-modal'
 import { PresentationCard } from '@/components/presentation-card'
-import { PDFViewer } from '@/components/pdf-viewer'
+import { PresentationViewer } from '@/components/presentation-viewer'
 
 interface Presentation {
+  url: string
   pathname: string
   title: string
   uploadedAt: string
   size: number
+  fileType: 'pdf' | 'powerpoint'
 }
 
 export default function LearningLibraryPage() {
@@ -140,9 +142,10 @@ export default function LearningLibraryPage() {
       />
 
       {selectedPresentation && (
-        <PDFViewer
-          pathname={selectedPresentation.pathname}
+        <PresentationViewer
+          url={selectedPresentation.url}
           title={selectedPresentation.title}
+          fileType={selectedPresentation.fileType}
           onClose={() => setSelectedPresentation(null)}
         />
       )}
