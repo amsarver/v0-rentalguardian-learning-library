@@ -97,14 +97,18 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
         body: formData,
       })
 
+      const data = await response.json()
+      console.log('[v0] Upload response:', data)
+
       if (!response.ok) {
-        throw new Error('Upload failed')
+        throw new Error(data.error || 'Upload failed')
       }
 
       onUploadSuccess()
       handleClose()
-    } catch {
-      setError('Failed to upload presentation. Please try again.')
+    } catch (err) {
+      console.error('[v0] Upload error:', err)
+      setError(err instanceof Error ? err.message : 'Failed to upload presentation. Please try again.')
     } finally {
       setUploading(false)
     }
