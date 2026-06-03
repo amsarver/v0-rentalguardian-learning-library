@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { upload } from '@vercel/blob/client'
 import { Upload, X, FileText, Loader2, Presentation } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -24,6 +25,7 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
   const [uploading, setUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState('')
+  const [progress, setProgress] = useState(0)
 
   const isValidFile = (f: File) => {
     const fileName = f.name.toLowerCase()
@@ -85,34 +87,38 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
 
     setUploading(true)
     setError('')
+    setProgress(0)
 
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('title', title)
-      formData.append('description', description)
-
-      const response = await fetch('/api/presentations/upload', {
-        method: 'POST',
-        body: formData,
-      })
-
-      // Handle non-JSON responses (like 413 Request Entity Too Large)
-      const contentType = response.headers.get('content-type')
-      let data
-      if (contentType && contentType.includes('application/json')) {
-        data = await response.json()
-      } else {
-        const text = await response.text()
-        if (response.status === 413) {
-          throw new Error('File is too large. Maximum size is 50MB.')
+      // Use client-side upload to bypass server body size limits
+      const blob = await upload(
+        `presentations/${Date.now()}-${file.name}`,
+        file,
+        {
+          access: 'public',
+          handleUploadUrl: '/api/presentations/upload',
+          onUploadProgress: (progressEvent) => {
+            setProgress(Math.round((progressEvent.loaded / progressEvent.total) * 100))
+          },
         }
-        throw new Error(text || `Upload failed with status ${response.status}`)
-      }
+      )
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Upload failed')
-      }
+      // Store metadata in localStorage for now (can be moved to database later)
+      const presentations = JSON.parse(localStorage.getItem('rg-presentations') || '[]')
+      const fileName = file.name.toLowerCase()
+      const fileType = fileName.endsWith('.pdf') ? 'pdf' : 'powerpoint'
+      
+      presentations.push({
+        url: blob.url,
+        pathname: blob.pathname,
+        title: title || file.name.replace(/\.(pptx?|pdf)$/i, ''),
+        description: description || '',
+        uploadedAt: new Date().toISOString(),
+        size: file.size,
+        fileType,
+      })
+      
+      localStorage.setItem('rg-presentations', JSON.stringify(presentations))
 
       onUploadSuccess()
       handleClose()
@@ -121,6 +127,7 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
       setError(err instanceof Error ? err.message : 'Failed to upload presentation. Please try again.')
     } finally {
       setUploading(false)
+      setProgress(0)
     }
   }
 
@@ -129,6 +136,7 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
     setTitle('')
     setDescription('')
     setError('')
+    setProgress(0)
     onClose()
   }
 
@@ -189,13 +197,28 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
                   />
                 </label>
               </p>
-              <p className="text-sm text-muted-foreground">PowerPoint (.ppt, .pptx) or PDF files</p>
+              <p className="text-sm text-muted-foreground">PowerPoint (.ppt, .pptx) or PDF files up to 50MB</p>
             </>
           )}
         </div>
 
         {error && (
           <p className="mt-3 text-sm text-destructive">{error}</p>
+        )}
+
+        {uploading && progress > 0 && (
+          <div className="mt-3">
+            <div className="flex justify-between text-sm text-muted-foreground mb-1">
+              <span>Uploading...</span>
+              <span>{progress}%</span>
+            </div>
+            <div className="w-full bg-muted rounded-full h-2">
+              <div 
+                className="bg-[#3AAAE1] h-2 rounded-full transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
         )}
 
         <div className="mt-6 space-y-4">

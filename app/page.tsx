@@ -27,7 +27,20 @@ export default function LearningLibraryPage() {
       const response = await fetch('/api/presentations/list')
       if (response.ok) {
         const data = await response.json()
-        setPresentations(data.presentations)
+        
+        // Merge with localStorage metadata (for title/description)
+        const localData = JSON.parse(localStorage.getItem('rg-presentations') || '[]')
+        const localMap = new Map(localData.map((p: Presentation & { description?: string }) => [p.url, p]))
+        
+        const merged = data.presentations.map((p: Presentation) => {
+          const local = localMap.get(p.url)
+          if (local) {
+            return { ...p, title: local.title || p.title, description: local.description }
+          }
+          return p
+        })
+        
+        setPresentations(merged)
       }
     } catch (error) {
       console.error('Error fetching presentations:', error)
