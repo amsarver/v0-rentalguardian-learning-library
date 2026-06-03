@@ -1,6 +1,17 @@
 import { put } from '@vercel/blob'
 import { type NextRequest, NextResponse } from 'next/server'
 
+// Increase the body size limit to 50MB for presentations
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
+
+// For App Router, use route segment config
+export const maxDuration = 60
+export const dynamic = 'force-dynamic'
+
 const ALLOWED_TYPES = [
   'application/vnd.ms-powerpoint',
   'application/vnd.openxmlformats-officedocument.presentationml.presentation',

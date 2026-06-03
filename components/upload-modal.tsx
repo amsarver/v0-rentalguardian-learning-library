@@ -97,8 +97,18 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
         body: formData,
       })
 
-      const data = await response.json()
-      console.log('[v0] Upload response:', data)
+      // Handle non-JSON responses (like 413 Request Entity Too Large)
+      const contentType = response.headers.get('content-type')
+      let data
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json()
+      } else {
+        const text = await response.text()
+        if (response.status === 413) {
+          throw new Error('File is too large. Maximum size is 50MB.')
+        }
+        throw new Error(text || `Upload failed with status ${response.status}`)
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Upload failed')
