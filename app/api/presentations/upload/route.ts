@@ -1,44 +1,68 @@
-import { handleUpload, type HandleUploadBody } from '@vercel/blob/client'
+import { put } from '@vercel/blob'
 import { type NextRequest, NextResponse } from 'next/server'
 
-// This route handles the client upload token generation
-// The actual file upload happens directly from the browser to Blob storage
+const ALLOWED_EXTENSIONS = ['.ppt', '.pptx', '.pdf']
+const ALLOWED_MIME_TYPES = [
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/pdf',
+]
+
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as HandleUploadBody
-
   try {
-    const jsonResponse = await handleUpload({
-      body,
-      request,
-      onBeforeGenerateToken: async (pathname) => {
-        // Validate file type from pathname
-        const fileName = pathname.toLowerCase()
-        const isValidFile = 
-          fileName.endsWith('.ppt') || 
-          fileName.endsWith('.pptx') || 
-          fileName.endsWith('.pdf')
+    const formData = await request.formData()
+    const file = formData.get('file') as File
+    const title = formData.get('title') as string || ''
+    const description = formData.get('description') as string || ''
 
-        if (!isValidFile) {
-          throw new Error('Only PowerPoint (.ppt, .pptx) and PDF files are allowed')
-        }
+    if (!file) {
+      return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+    }
 
-        return {
-          allowedContentTypes: [
-            'application/vnd.ms-powerpoint',
-            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-            'application/pdf',
-          ],
-          maximumSizeInBytes: 50 * 1024 * 1024, // 50MB
-        }
-      },
+    // Validate file type
+    const fileName = file.name.toLowerCase()
+    const hasValidExtension = ALLOWED_EXTENSIONS.some(ext => fileName.endsWith(ext))
+    const hasValidMimeType = ALLOWED_MIME_TYPES.includes(file.type)
+
+    if (!hasValidExtension && !hasValidMimeType) {
+      return NextResponse.json(
+        { error: 'Only PowerPoint (.ppt, .pptx) and PDF files are allowed' },
+        { status: 400 }
+      )
+    }
+
+    // Validate file size (50MB max)
+    const maxSize = 50 * 1024 * 1024
+    if (file.size > maxSize) {
+      return NextResponse.json(
+        { error: 'File size exceeds 50MB limit' },
+        { status: 400 }
+      )
+    }
+
+    // Determine file type
+    const fileType = fileName.endsWith('.pdf') ? 'pdf' : 'powerpoint'
+
+    // Upload to Vercel Blob with public access (required for Office Online embed)
+    const blob = await put(
+      `presentations/${Date.now()}-${file.name}`,
+      file,
+      { access: 'public' }
+    )
+
+    return NextResponse.json({
+      success: true,
+      url: blob.url,
+      pathname: blob.pathname,
+      title: title || file.name.replace(/\.(pptx?|pdf)$/i, ''),
+      description,
+      fileType,
+      size: file.size,
+      uploadedAt: new Date().toISOString(),
     })
-
-    return NextResponse.json(jsonResponse)
   } catch (error) {
     console.error('[v0] Upload error:', error)
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Upload failed' },
-      { status: 400 }
-    )
+    const errorMessage = error instanceof Error ? error.message : 'Upload failed'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
