@@ -1,37 +1,151 @@
-export default function Page() {
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-black px-6 text-neutral-400">
-      <div className="flex w-full max-w-md flex-col items-start gap-8">
-        <svg
-          fill="currentColor"
-          viewBox="0 0 147 70"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          className="size-10 text-white"
-        >
-          <path d="M56 50.2031V14H70V60.1562C70 65.5928 65.5928 70 60.1562 70C57.5605 70 54.9982 68.9992 53.1562 67.1573L0 14H19.7969L56 50.2031Z" />
-          <path d="M147 56H133V23.9531L100.953 56H133V70H96.6875C85.8144 70 77 61.1856 77 50.3125V14H91V46.1562L123.156 14H91V0H127.312C138.186 0 147 8.81439 147 19.6875V56Z" />
-        </svg>
+'use client'
 
-        <div className="space-y-3">
-          <h1 className="text-balance text-2xl font-semibold tracking-tight text-white">
-            To get started, describe what you want to build.
-          </h1>
-          <p className="text-pretty text-sm leading-relaxed text-neutral-500">
-            This is the default page for a fresh v0 project. Open the prompt and
-            tell v0 what to create, or browse the{' '}
-            <a
-              href="https://v0.app/templates"
-              target="_blank"
-              rel="noreferrer"
-              className="text-neutral-300 underline underline-offset-4 hover:text-white"
+import { useState, useEffect, useCallback } from 'react'
+import { Plus, BookOpen, Loader2, Library } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { UploadModal } from '@/components/upload-modal'
+import { PresentationCard } from '@/components/presentation-card'
+import { PDFViewer } from '@/components/pdf-viewer'
+
+interface Presentation {
+  pathname: string
+  title: string
+  uploadedAt: string
+  size: number
+}
+
+export default function LearningLibraryPage() {
+  const [presentations, setPresentations] = useState<Presentation[]>([])
+  const [loading, setLoading] = useState(true)
+  const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const [selectedPresentation, setSelectedPresentation] = useState<Presentation | null>(null)
+
+  const fetchPresentations = useCallback(async () => {
+    try {
+      const response = await fetch('/api/presentations/list')
+      if (response.ok) {
+        const data = await response.json()
+        setPresentations(data.presentations)
+      }
+    } catch (error) {
+      console.error('Error fetching presentations:', error)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchPresentations()
+  }, [fetchPresentations])
+
+  const handleUploadSuccess = () => {
+    fetchPresentations()
+  }
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Header */}
+      <header className="bg-[#1D3E6E] text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#3AAAE1] rounded-lg flex items-center justify-center">
+                <Library className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold">RentalGuardian</h1>
+                <p className="text-sm text-white/70">Learning Library</p>
+              </div>
+            </div>
+            <Button
+              onClick={() => setUploadModalOpen(true)}
+              className="bg-[#3AAAE1] hover:bg-[#3AAAE1]/90 text-white"
             >
-              Community
-            </a>{' '}
-            for inspiration.
+              <Plus className="h-4 w-4 mr-2" />
+              Upload Presentation
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-[#1D3E6E] to-[#1D3E6E]/90 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">Welcome to the Learning Library</h2>
+          <p className="text-lg text-white/80 max-w-2xl mx-auto text-pretty">
+            Access training materials, product guides, and educational resources to help you 
+            get the most out of RentalGuardian services.
           </p>
         </div>
-      </div>
-    </main>
+      </section>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <BookOpen className="h-5 w-5 text-[#3AAAE1]" />
+            <h3 className="text-xl font-semibold text-foreground">Presentations</h3>
+            <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-[#F5A623]/10 text-[#F5A623] rounded-full">
+              {presentations.length} {presentations.length === 1 ? 'item' : 'items'}
+            </span>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-[#3AAAE1]" />
+          </div>
+        ) : presentations.length === 0 ? (
+          <div className="text-center py-20 bg-card rounded-lg border border-border">
+            <div className="w-16 h-16 bg-[#3AAAE1]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <BookOpen className="h-8 w-8 text-[#3AAAE1]" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">No presentations yet</h3>
+            <p className="text-muted-foreground mb-6">
+              Upload your first presentation to get started.
+            </p>
+            <Button
+              onClick={() => setUploadModalOpen(true)}
+              className="bg-[#1D3E6E] hover:bg-[#1D3E6E]/90 text-white"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Upload Presentation
+            </Button>
+          </div>
+        ) : (
+          <div className="grid gap-4">
+            {presentations.map((presentation) => (
+              <PresentationCard
+                key={presentation.pathname}
+                presentation={presentation}
+                onClick={() => setSelectedPresentation(presentation)}
+              />
+            ))}
+          </div>
+        )}
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-[#1D3E6E] text-white/70 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+          <p>&copy; {new Date().getFullYear()} RentalGuardian. All rights reserved.</p>
+        </div>
+      </footer>
+
+      {/* Modals */}
+      <UploadModal
+        isOpen={uploadModalOpen}
+        onClose={() => setUploadModalOpen(false)}
+        onUploadSuccess={handleUploadSuccess}
+      />
+
+      {selectedPresentation && (
+        <PDFViewer
+          pathname={selectedPresentation.pathname}
+          title={selectedPresentation.title}
+          onClose={() => setSelectedPresentation(null)}
+        />
+      )}
+    </div>
   )
 }
