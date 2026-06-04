@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { UploadModal } from '@/components/upload-modal'
 import { PresentationCard } from '@/components/presentation-card'
 import { PresentationViewer } from '@/components/presentation-viewer'
+import { ChatWidget } from '@/components/chat-widget'
 
 interface Presentation {
   url: string
@@ -181,6 +182,9 @@ export default function LearningLibraryPage() {
           onClose={() => setSelectedPresentation(null)}
         />
       )}
+
+      {/* AI Chat Widget */}
+      <ChatWidget />
     </div>
   )
 }
