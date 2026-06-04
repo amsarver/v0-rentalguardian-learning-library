@@ -12,9 +12,8 @@ interface PresentationViewerProps {
   onClose: () => void
 }
 
-export function PresentationViewer({ pathname, title, fileType, onClose }: PresentationViewerProps) {
-  // For PowerPoint, we don't need to load anything - we show download UI immediately
-  const [loading, setLoading] = useState(fileType === 'pdf')
+export function PresentationViewer({ url, title, fileType, onClose }: PresentationViewerProps) {
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -25,8 +24,11 @@ export function PresentationViewer({ pathname, title, fileType, onClose }: Prese
     }
   }, [])
 
-  // Use our proxy route to serve the file
-  const proxyUrl = `/api/presentations/file?pathname=${encodeURIComponent(pathname)}`
+  // Microsoft Office Online embed URL for PowerPoint (requires public URL)
+  const officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`
+  
+  // Google Docs Viewer for PDFs (also requires public URL)
+  const pdfViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`
 
   const handleLoad = () => {
     setLoading(false)
@@ -38,12 +40,7 @@ export function PresentationViewer({ pathname, title, fileType, onClose }: Prese
   }
 
   const handleDownload = () => {
-    const link = document.createElement('a')
-    link.href = proxyUrl
-    link.download = title + (fileType === 'powerpoint' ? '.pptx' : '.pdf')
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    window.open(url, '_blank')
   }
 
   return (
@@ -105,52 +102,26 @@ export function PresentationViewer({ pathname, title, fileType, onClose }: Prese
           </div>
         )}
         
-        {/* PDF Viewer - browsers have native PDF support */}
-        {fileType === 'pdf' && (
-          <object
-            data={proxyUrl}
-            type="application/pdf"
+        {/* PowerPoint Viewer - Microsoft Office Online */}
+        {fileType === 'powerpoint' && (
+          <iframe
+            src={officeViewerUrl}
             className="absolute inset-0 w-full h-full z-10"
+            title={title}
             onLoad={handleLoad}
             onError={handleError}
-          >
-            <iframe
-              src={proxyUrl}
-              className="absolute inset-0 w-full h-full"
-              title={title}
-              onLoad={handleLoad}
-              onError={handleError}
-            />
-          </object>
+          />
         )}
 
-        {/* PowerPoint - Show download prompt since browsers can't natively display .pptx */}
-        {fileType === 'powerpoint' && !error && (
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 z-10">
-            <div className="flex flex-col items-center gap-6 p-8 text-center max-w-md">
-              <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-[#F5A623] to-[#e09520] flex items-center justify-center shadow-lg">
-                <Presentation className="h-12 w-12 text-white" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-[#1D3E6E] mb-2">{title}</h3>
-                <p className="text-[#1D3E6E]/70 mb-6">
-                  PowerPoint presentations require Microsoft PowerPoint or a compatible application to view.
-                </p>
-              </div>
-              <div className="flex flex-col gap-3 w-full">
-                <Button
-                  onClick={handleDownload}
-                  className="w-full bg-[#1D3E6E] hover:bg-[#15304f] text-white gap-2 h-12"
-                >
-                  <Download className="h-5 w-5" />
-                  Download Presentation
-                </Button>
-                <p className="text-xs text-[#1D3E6E]/50">
-                  Opens in PowerPoint, Google Slides, or your default presentation app
-                </p>
-              </div>
-            </div>
-          </div>
+        {/* PDF Viewer - Google Docs Viewer */}
+        {fileType === 'pdf' && (
+          <iframe
+            src={pdfViewerUrl}
+            className="absolute inset-0 w-full h-full z-10"
+            title={title}
+            onLoad={handleLoad}
+            onError={handleError}
+          />
         )}
       </div>
 
