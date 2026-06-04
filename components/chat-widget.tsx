@@ -3,18 +3,34 @@
 import { useState } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
-import { X, MessageCircle, Send, Bot, User, Loader2 } from 'lucide-react'
+import { X, MessageCircle, Send, Bot, User, Loader2, ThumbsUp, ThumbsDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+
+type FeedbackType = 'positive' | 'negative' | null
+
+interface MessageFeedback {
+  [messageId: string]: FeedbackType
+}
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
+  const [feedback, setFeedback] = useState<MessageFeedback>({})
   
   const { messages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
   })
   
   const isLoading = status === 'streaming' || status === 'submitted'
+
+  const handleFeedback = (messageId: string, type: FeedbackType) => {
+    setFeedback((prev) => ({
+      ...prev,
+      [messageId]: prev[messageId] === type ? null : type,
+    }))
+    // You can add an API call here to persist the feedback
+    console.log(`Feedback for message ${messageId}: ${type}`)
+  }
 
   return (
     <>
@@ -65,30 +81,62 @@ export function ChatWidget() {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex flex-col ${message.role === 'user' ? 'items-end' : 'items-start'}`}
               >
-                {message.role === 'assistant' && (
-                  <div className="w-7 h-7 bg-[#3AAAE1] rounded-full flex items-center justify-center flex-shrink-0">
-                    <Bot className="h-4 w-4 text-white" />
+                <div className={`flex gap-2 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  {message.role === 'assistant' && (
+                    <div className="w-7 h-7 bg-[#3AAAE1] rounded-full flex items-center justify-center flex-shrink-0">
+                      <Bot className="h-4 w-4 text-white" />
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
+                      message.role === 'user'
+                        ? 'bg-[#1D3E6E] text-white'
+                        : 'bg-muted text-foreground'
+                    }`}
+                  >
+                    {message.parts.map((part, index) => {
+                      if (part.type === 'text') {
+                        return <span key={index} className="whitespace-pre-wrap">{part.text}</span>
+                      }
+                      return null
+                    })}
                   </div>
-                )}
-                <div
-                  className={`max-w-[80%] rounded-lg px-3 py-2 text-sm ${
-                    message.role === 'user'
-                      ? 'bg-[#1D3E6E] text-white'
-                      : 'bg-muted text-foreground'
-                  }`}
-                >
-                  {message.parts.map((part, index) => {
-                    if (part.type === 'text') {
-                      return <span key={index} className="whitespace-pre-wrap">{part.text}</span>
-                    }
-                    return null
-                  })}
+                  {message.role === 'user' && (
+                    <div className="w-7 h-7 bg-[#F5A623] rounded-full flex items-center justify-center flex-shrink-0">
+                      <User className="h-4 w-4 text-white" />
+                    </div>
+                  )}
                 </div>
-                {message.role === 'user' && (
-                  <div className="w-7 h-7 bg-[#F5A623] rounded-full flex items-center justify-center flex-shrink-0">
-                    <User className="h-4 w-4 text-white" />
+                
+                {/* Feedback buttons for assistant messages */}
+                {message.role === 'assistant' && (
+                  <div className="flex gap-1 ml-9 mt-1">
+                    <button
+                      onClick={() => handleFeedback(message.id, 'positive')}
+                      className={`p-1 rounded transition-colors ${
+                        feedback[message.id] === 'positive'
+                          ? 'text-green-600 bg-green-100'
+                          : 'text-muted-foreground hover:text-green-600 hover:bg-green-50'
+                      }`}
+                      aria-label="Helpful response"
+                      title="Helpful"
+                    >
+                      <ThumbsUp className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      onClick={() => handleFeedback(message.id, 'negative')}
+                      className={`p-1 rounded transition-colors ${
+                        feedback[message.id] === 'negative'
+                          ? 'text-red-600 bg-red-100'
+                          : 'text-muted-foreground hover:text-red-600 hover:bg-red-50'
+                      }`}
+                      aria-label="Not helpful response"
+                      title="Not helpful"
+                    >
+                      <ThumbsDown className="h-3.5 w-3.5" />
+                    </button>
                   </div>
                 )}
               </div>
