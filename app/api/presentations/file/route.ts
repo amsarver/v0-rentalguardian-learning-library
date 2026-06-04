@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { list, head } from '@vercel/blob'
+import { get } from '@vercel/blob'
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,41 +10,21 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Missing pathname' }, { status: 400 })
     }
 
-    // List blobs to find the one with matching pathname
-    const { blobs } = await list({ prefix: pathname.split('/')[0] })
-    console.log('[v0] Found blobs:', blobs.map(b => b.pathname))
-    
-    const blob = blobs.find(b => b.pathname === pathname)
-    
-    if (!blob) {
-      console.log('[v0] Blob not found for pathname:', pathname)
+    // Use get() to fetch private blob content
+    const result = await get(pathname, { access: 'private' })
+
+    if (!result || result.statusCode !== 200) {
+      console.log('[v0] Blob not found or error:', result?.statusCode)
       return new NextResponse('Not found', { status: 404 })
     }
 
-    console.log('[v0] Found blob URL:', blob.url)
-
-    // Use head() to get a downloadUrl for private blobs
-    const blobDetails = await head(blob.url)
-    const downloadUrl = blobDetails.downloadUrl
+    const filename = pathname.split('/').pop() || 'download'
     
-    console.log('[v0] Download URL:', downloadUrl)
-
-    // Fetch the file content using the download URL
-    const fileResponse = await fetch(downloadUrl)
-    
-    if (!fileResponse.ok) {
-      console.log('[v0] Failed to fetch blob:', fileResponse.status, fileResponse.statusText)
-      return new NextResponse('Failed to fetch file', { status: 500 })
-    }
-
-    const contentType = blob.contentType || 'application/octet-stream'
-    const filename = blob.pathname.split('/').pop() || 'download'
-
-    return new NextResponse(fileResponse.body, {
+    return new NextResponse(result.stream, {
       headers: {
-        'Content-Type': contentType,
+        'Content-Type': result.blob.contentType || 'application/octet-stream',
         'Content-Disposition': `attachment; filename="${filename}"`,
-        'Cache-Control': 'private, max-age=3600',
+        'Cache-Control': 'private, no-cache',
       },
     })
   } catch (error) {
