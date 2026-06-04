@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from 'next/server'
-import { list } from '@vercel/blob'
+import { list, head } from '@vercel/blob'
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,8 +23,14 @@ export async function GET(request: NextRequest) {
 
     console.log('[v0] Found blob URL:', blob.url)
 
-    // Fetch the file content from the blob URL
-    const fileResponse = await fetch(blob.url)
+    // Use head() to get a downloadUrl for private blobs
+    const blobDetails = await head(blob.url)
+    const downloadUrl = blobDetails.downloadUrl
+    
+    console.log('[v0] Download URL:', downloadUrl)
+
+    // Fetch the file content using the download URL
+    const fileResponse = await fetch(downloadUrl)
     
     if (!fileResponse.ok) {
       console.log('[v0] Failed to fetch blob:', fileResponse.status, fileResponse.statusText)
