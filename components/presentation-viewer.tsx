@@ -13,7 +13,8 @@ interface PresentationViewerProps {
 }
 
 export function PresentationViewer({ pathname, title, fileType, onClose }: PresentationViewerProps) {
-  const [loading, setLoading] = useState(true)
+  // For PowerPoint, we don't need to load anything - we show download UI immediately
+  const [loading, setLoading] = useState(fileType === 'pdf')
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
