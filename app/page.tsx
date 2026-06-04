@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, BookOpen, Loader2, Library } from 'lucide-react'
+import { Plus, BookOpen, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { UploadModal } from '@/components/upload-modal'
 import { PresentationCard } from '@/components/presentation-card'
@@ -63,14 +63,14 @@ export default function LearningLibraryPage() {
       <header className="bg-[#1D3E6E] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#3AAAE1] rounded-lg flex items-center justify-center">
-                <Library className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold">RentalGuardian</h1>
-                <p className="text-sm text-white/70">Learning Library</p>
-              </div>
+            <div className="flex items-center gap-4">
+              <img
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/RentalGuardian_Logo__Horizontal_White_BI-YrZrnDozzIs6EWlGh5FC05rHdFv4xH.png"
+                alt="RentalGuardian"
+                className="h-12 w-auto"
+              />
+              <div className="h-8 w-px bg-white/30" />
+              <p className="text-lg font-medium text-white/90">Learning Library</p>
             </div>
             <Button
               onClick={() => setUploadModalOpen(true)}
@@ -141,9 +141,18 @@ export default function LearningLibraryPage() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#1D3E6E] text-white/70 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} RentalGuardian. All rights reserved.</p>
+      <footer className="bg-[#1D3E6E] text-white py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center gap-4">
+            <img
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/RentalGuardian_Logo__Horizontal_White_BI-YrZrnDozzIs6EWlGh5FC05rHdFv4xH.png"
+              alt="RentalGuardian"
+              className="h-10 w-auto opacity-90"
+            />
+            <p className="text-white/60 text-sm">
+              &copy; {new Date().getFullYear()} RentalGuardian. All rights reserved.
+            </p>
+          </div>
         </div>
       </footer>
 
