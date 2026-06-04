@@ -40,10 +40,14 @@ export default function LearningLibraryPage() {
         
         const merged = data.presentations.map((p: Presentation) => {
           const local = localMap.get(p.url)
+          // Check for custom title overrides
+          const customTitles = JSON.parse(localStorage.getItem('rg-custom-titles') || '{}')
+          const customTitle = Object.entries(customTitles).find(([key]) => p.title.includes(key))?.[1] as string | undefined
+          
           if (local) {
-            return { ...p, title: local.title || p.title, description: local.description }
+            return { ...p, title: customTitle || local.title || p.title, description: local.description }
           }
-          return p
+          return { ...p, title: customTitle || p.title }
         })
         
         // Clean up localStorage by removing entries that no longer exist in Blob
@@ -60,8 +64,11 @@ export default function LearningLibraryPage() {
   }, [])
 
   useEffect(() => {
-    // Clear old localStorage data to start fresh with new Blob store
-    localStorage.removeItem('rg-presentations')
+    // Set custom title for the presentation
+    const customTitles: Record<string, string> = {
+      'RentalGuardian Smart.ly and mySedgwick Compressed': 'RentalGuardian Smart.ly and mySedgwick Claims Process'
+    }
+    localStorage.setItem('rg-custom-titles', JSON.stringify(customTitles))
     fetchPresentations()
   }, [fetchPresentations])
 
