@@ -7,6 +7,7 @@ import { UploadModal } from '@/components/upload-modal'
 import { PresentationCard } from '@/components/presentation-card'
 import { PresentationViewer } from '@/components/presentation-viewer'
 import { ChatWidget } from '@/components/chat-widget'
+import { QASection } from '@/components/qa-section'
 
 interface Presentation {
   url: string
@@ -22,6 +23,7 @@ export default function LearningLibraryPage() {
   const [loading, setLoading] = useState(true)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [selectedPresentation, setSelectedPresentation] = useState<Presentation | null>(null)
+  const [qaRefreshTrigger, setQaRefreshTrigger] = useState(0)
 
   const fetchPresentations = useCallback(async () => {
     try {
@@ -65,6 +67,8 @@ export default function LearningLibraryPage() {
 
   const handleUploadSuccess = () => {
     fetchPresentations()
+    // Trigger Q&A section refresh after a short delay to allow text extraction
+    setTimeout(() => setQaRefreshTrigger(prev => prev + 1), 2000)
   }
 
   return (
@@ -148,6 +152,11 @@ export default function LearningLibraryPage() {
             ))}
           </div>
         )}
+
+        {/* Q&A Section */}
+        <div className="mt-12">
+          <QASection refreshTrigger={qaRefreshTrigger} />
+        </div>
       </main>
 
       {/* Footer */}
