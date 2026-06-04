@@ -57,6 +57,8 @@ export default function LearningLibraryPage() {
   }, [])
 
   useEffect(() => {
+    // Clear old localStorage data to start fresh with new Blob store
+    localStorage.removeItem('rg-presentations')
     fetchPresentations()
   }, [fetchPresentations])
 
