@@ -157,6 +157,7 @@ export default function LearningLibraryPage() {
       {selectedPresentation && (
         <PresentationViewer
           url={selectedPresentation.url}
+          pathname={selectedPresentation.pathname}
           title={selectedPresentation.title}
           fileType={selectedPresentation.fileType}
           onClose={() => setSelectedPresentation(null)}
