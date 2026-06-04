@@ -43,11 +43,11 @@ export async function POST(request: NextRequest) {
     // Determine file type
     const fileType = fileName.endsWith('.pdf') ? 'pdf' : 'powerpoint'
 
-    // Upload to Vercel Blob with private access
+    // Upload to Vercel Blob with public access (required for Office Online embed)
     const blob = await put(
       `presentations/${Date.now()}-${file.name}`,
       file,
-      { access: 'private' }
+      { access: 'public' }
     )
 
     return NextResponse.json({
