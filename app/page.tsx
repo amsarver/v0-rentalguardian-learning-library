@@ -32,6 +32,9 @@ export default function LearningLibraryPage() {
         const localData = JSON.parse(localStorage.getItem('rg-presentations') || '[]')
         const localMap = new Map(localData.map((p: Presentation & { description?: string }) => [p.url, p]))
         
+        // Only use presentations that exist in Blob storage
+        const blobUrls = new Set(data.presentations.map((p: Presentation) => p.url))
+        
         const merged = data.presentations.map((p: Presentation) => {
           const local = localMap.get(p.url)
           if (local) {
@@ -39,6 +42,10 @@ export default function LearningLibraryPage() {
           }
           return p
         })
+        
+        // Clean up localStorage by removing entries that no longer exist in Blob
+        const cleanedLocalData = localData.filter((p: Presentation) => blobUrls.has(p.url))
+        localStorage.setItem('rg-presentations', JSON.stringify(cleanedLocalData))
         
         setPresentations(merged)
       }
