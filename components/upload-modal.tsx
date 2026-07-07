@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import { Upload, X, FileText, Loader2, Presentation } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { CATEGORIES, DEFAULT_CATEGORY, setStoredCategory, type CategoryId } from '@/lib/categories'
 
 interface UploadModalProps {
   isOpen: boolean
@@ -21,6 +22,7 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [category, setCategory] = useState<CategoryId>(DEFAULT_CATEGORY)
   const [uploading, setUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState('')
@@ -131,6 +133,9 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
       })
       localStorage.setItem('rg-presentations', JSON.stringify(presentations))
 
+      // Persist the chosen category for this presentation
+      setStoredCategory(data.url, category)
+
       onUploadSuccess()
       handleClose()
     } catch (err) {
@@ -145,6 +150,7 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
     setFile(null)
     setTitle('')
     setDescription('')
+    setCategory(DEFAULT_CATEGORY)
     setError('')
     onClose()
   }
@@ -216,6 +222,22 @@ export function UploadModal({ isOpen, onClose, onUploadSuccess }: UploadModalPro
         )}
 
         <div className="mt-6 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1">
+              Category
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value as CategoryId)}
+              className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-[#3AAAE1]"
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label className="block text-sm font-medium text-foreground mb-1">
               Title

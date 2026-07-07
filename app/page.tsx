@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, BookOpen, Loader2 } from 'lucide-react'
+import { Plus, BookOpen, Loader2, ShieldCheck, Plane, CreditCard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { UploadModal } from '@/components/upload-modal'
 import { PresentationCard } from '@/components/presentation-card'
 import { PresentationViewer } from '@/components/presentation-viewer'
 import { ChatWidget } from '@/components/chat-widget'
 import { QASection } from '@/components/qa-section'
+import { CATEGORIES, resolveCategory, type CategoryId } from '@/lib/categories'
 
 interface Presentation {
   url: string
@@ -16,6 +17,13 @@ interface Presentation {
   uploadedAt: string
   size: number
   fileType: 'pdf' | 'powerpoint'
+  category?: CategoryId
+}
+
+const CATEGORY_ICONS: Record<CategoryId, typeof ShieldCheck> = {
+  damage: ShieldCheck,
+  travel: Plane,
+  billing: CreditCard,
 }
 
 export default function LearningLibraryPage() {
@@ -43,11 +51,16 @@ export default function LearningLibraryPage() {
           // Check for custom title overrides
           const customTitles = JSON.parse(localStorage.getItem('rg-custom-titles') || '{}')
           const customTitle = Object.entries(customTitles).find(([key]) => p.title.includes(key))?.[1] as string | undefined
-          
+
+          const resolvedTitle = local
+            ? customTitle || (local as Presentation).title || p.title
+            : customTitle || p.title
+          const category = resolveCategory(p.url, resolvedTitle)
+
           if (local) {
-            return { ...p, title: customTitle || local.title || p.title, description: local.description }
+            return { ...p, title: resolvedTitle, description: (local as Presentation & { description?: string }).description, category }
           }
-          return { ...p, title: customTitle || p.title }
+          return { ...p, title: resolvedTitle, category }
         })
         
         // Clean up localStorage by removing entries that no longer exist in Blob
@@ -117,16 +130,6 @@ export default function LearningLibraryPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5 text-[#3AAAE1]" />
-            <h3 className="text-xl font-semibold text-foreground">Presentations</h3>
-            <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-[#F5A623]/10 text-[#F5A623] rounded-full">
-              {presentations.length} {presentations.length === 1 ? 'item' : 'items'}
-            </span>
-          </div>
-        </div>
-
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-[#3AAAE1]" />
@@ -149,14 +152,51 @@ export default function LearningLibraryPage() {
             </Button>
           </div>
         ) : (
-          <div className="grid gap-4">
-            {presentations.map((presentation) => (
-              <PresentationCard
-                key={presentation.pathname}
-                presentation={presentation}
-                onClick={() => setSelectedPresentation(presentation)}
-              />
-            ))}
+          <div className="flex flex-col gap-10">
+            {CATEGORIES.map((category) => {
+              const items = presentations.filter(
+                (p) => (p.category ?? 'damage') === category.id,
+              )
+              const CategoryIcon = CATEGORY_ICONS[category.id]
+
+              return (
+                <section key={category.id} aria-labelledby={`category-${category.id}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <CategoryIcon className="h-5 w-5 text-[#3AAAE1]" />
+                    <h3
+                      id={`category-${category.id}`}
+                      className="text-xl font-semibold text-foreground"
+                    >
+                      {category.label}
+                    </h3>
+                    <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-[#F5A623]/10 text-[#F5A623] rounded-full">
+                      {items.length} {items.length === 1 ? 'item' : 'items'}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4 text-pretty">
+                    {category.description}
+                  </p>
+
+                  {items.length === 0 ? (
+                    <div className="text-center py-10 bg-card rounded-lg border border-dashed border-border">
+                      <p className="text-sm text-muted-foreground">
+                        No resources in this category yet.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid gap-4">
+                      {items.map((presentation) => (
+                        <PresentationCard
+                          key={presentation.pathname}
+                          presentation={presentation}
+                          onClick={() => setSelectedPresentation(presentation)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </section>
+              )
+            })}
           </div>
         )}
 
