@@ -1,4 +1,4 @@
-export type CategoryId = 'damage' | 'travel'
+export type CategoryId = 'damage' | 'travel' | 'billing'
 
 export interface Category {
   id: CategoryId
@@ -17,6 +17,11 @@ export const CATEGORIES: Category[] = [
     label: 'Travel Protection Resources',
     description: 'Materials covering travel protection products and traveler support.',
   },
+  {
+    id: 'billing',
+    label: 'Billing and Payments',
+    description: 'Billing and payment resources for all RentalGuardian clients.',
+  },
 ]
 
 export const DEFAULT_CATEGORY: CategoryId = 'damage'
@@ -29,6 +34,9 @@ const CATEGORY_STORAGE_KEY = 'rg-categories'
  */
 export function inferCategory(title: string): CategoryId {
   const normalized = title.toLowerCase()
+  if (/(billing|payment|payments|invoice|invoicing|pay|payout)/.test(normalized)) {
+    return 'billing'
+  }
   if (/(travel|trip|traveler|traveller)/.test(normalized)) {
     return 'travel'
   }

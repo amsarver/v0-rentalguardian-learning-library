@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, BookOpen, Loader2, ShieldCheck, Plane } from 'lucide-react'
+import { Plus, BookOpen, Loader2, ShieldCheck, Plane, CreditCard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { UploadModal } from '@/components/upload-modal'
 import { PresentationCard } from '@/components/presentation-card'
@@ -23,6 +23,7 @@ interface Presentation {
 const CATEGORY_ICONS: Record<CategoryId, typeof ShieldCheck> = {
   damage: ShieldCheck,
   travel: Plane,
+  billing: CreditCard,
 }
 
 export default function LearningLibraryPage() {
