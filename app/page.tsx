@@ -8,7 +8,7 @@ import { PresentationCard } from '@/components/presentation-card'
 import { PresentationViewer } from '@/components/presentation-viewer'
 import { ChatWidget } from '@/components/chat-widget'
 import { QASection } from '@/components/qa-section'
-import { CATEGORIES, resolveCategory, type CategoryId } from '@/lib/categories'
+import { CATEGORIES, resolveCategory, resolveOrder, type CategoryId } from '@/lib/categories'
 
 interface Presentation {
   url: string
@@ -154,9 +154,9 @@ export default function LearningLibraryPage() {
         ) : (
           <div className="flex flex-col gap-10">
             {CATEGORIES.map((category) => {
-              const items = presentations.filter(
-                (p) => (p.category ?? 'damage') === category.id,
-              )
+              const items = presentations
+                .filter((p) => (p.category ?? 'damage') === category.id)
+                .sort((a, b) => resolveOrder(a.title) - resolveOrder(b.title))
               const CategoryIcon = CATEGORY_ICONS[category.id]
 
               return (
