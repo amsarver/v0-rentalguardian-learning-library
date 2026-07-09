@@ -4,10 +4,12 @@ export interface QAItem {
 }
 
 /**
- * Curated FAQs derived from the current RentalGuardian Damage Claims resources:
- * the "Damage Claims FAQ" (Last Updated July 2026) and the "RentalGuardian
- * Damage Claims Portal Training" guide. Used as a reliable, up-to-date source
- * for the FAQ section and the chat assistant whenever live AI is unavailable.
+ * Curated FAQs derived from the current RentalGuardian resources:
+ * the "Damage Claims FAQ" (Last Updated July 2026), the "RentalGuardian
+ * Damage Claims Portal Training" guide, and the "Billing Overview" (Billing &
+ * Payments for all RentalGuardian clients). Used as a reliable, up-to-date
+ * source for the FAQ section and the chat assistant whenever live AI is
+ * unavailable.
  */
 export const CURATED_FAQS: QAItem[] = [
   {
@@ -59,6 +61,41 @@ export const CURATED_FAQS: QAItem[] = [
     question: 'Who do I contact for help?',
     answer:
       'For assistance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2), available Mon–Sat, 8:30 AM–5:30 PM EST. For technical questions about a claim submission, contact 860.626.9943 or Robin.Doran@sedgwick.com, or reach your assigned examiner through the mySedgwick claims tracking portal.',
+  },
+  {
+    question: 'When is Damage Protection billed?',
+    answer:
+      'Damage Protection is billed in the month the reservation checks in—a stay booked weeks or months ahead is not charged until the month the guest arrives, because billing is tied to when coverage is active. Charges apply per coverage period based on your selected level, and longer stays are billed in installments (for example, a 30-day product covering a 60-day stay is billed as two 30-day installments), up to the maximum allowable stay of 180 days.',
+  },
+  {
+    question: 'When is Travel Protection billed, and how does compensation work?',
+    answer:
+      'Travel Protection is billed in the month the policy is booked (based on the booking date, not the stay date). For microsite bookings, the traveler is charged immediately by RentalGuardian and compensation to the property manager is issued the following month via paper check by default (contact accounting@insurestays.com for ACH). For PMC bookings, the property manager collects funds from the traveler and RentalGuardian bills them that same month—you keep the difference as your compensation.',
+  },
+  {
+    question: 'How is Booking Guardian billed, and can it be canceled?',
+    answer:
+      'Booking Guardian coverage is applied to every booking (including rebookings) and is charged at check-in, billed in the month of check-in. Once placed, it cannot be removed or canceled and stays active for the entire reservation.',
+  },
+  {
+    question: 'What are the refund and cancellation rules for each product?',
+    answer:
+      'Damage Protection cancellations are accepted up to 1 day before check-in with proof; same-day and post-check-in requests are automatically denied. Travel Protection offers a Free Look Period (often 15 days from purchase, per policy) during which travelers can cancel for a full refund; after it, policies cannot be decreased or canceled. Booking Guardian does not accept any refunds or cancellations.',
+  },
+  {
+    question: 'What payment methods are used and when are payments processed?',
+    answer:
+      'Effective mid-2025, all new clients are enrolled in automated billing via credit card or ACH, and RentalGuardian strongly recommends ACH to streamline payments and eliminate paper checks. All payments are processed on the last day of each month, and a sales receipt detailing what was billed is sent to the account\'s accounting contact. You can enroll in ACH at rentalguardian.com/ach-form.',
+  },
+  {
+    question: 'How do I view my billing details in the portal?',
+    answer:
+      'Sign in to the RentalGuardian portal and click the blue "Pay Now" button on the dashboard to open a running invoice anytime. You can see an account snapshot (name, total balance due, account number), filter transactions by All Due, Past 12 Months, Year to Date, or a custom date range, review each policy\'s details, and use Export Policies to download the list. Pay Now can be used to review billing at any time without making a payment, and changing the range only changes the view—not your balance.',
+  },
+  {
+    question: 'Who do I contact for billing questions?',
+    answer:
+      'For general billing inquiries, contact the RentalGuardian Support team at support@rentalguardian.com. For escalated billing or invoicing requests, contact accounting@insurestays.com. This billing structure applies consistently across all RentalGuardian clients and products.',
   },
 ]
 
