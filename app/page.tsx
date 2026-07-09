@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, BookOpen, Loader2, ShieldCheck, Plane, CreditCard } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { UploadModal } from '@/components/upload-modal'
+import { BookOpen, Loader2, ShieldCheck, Plane, CreditCard } from 'lucide-react'
 import { PresentationCard } from '@/components/presentation-card'
 import { PresentationViewer } from '@/components/presentation-viewer'
 import { ChatWidget } from '@/components/chat-widget'
@@ -29,7 +27,6 @@ const CATEGORY_ICONS: Record<CategoryId, typeof ShieldCheck> = {
 export default function LearningLibraryPage() {
   const [presentations, setPresentations] = useState<Presentation[]>([])
   const [loading, setLoading] = useState(true)
-  const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [selectedPresentation, setSelectedPresentation] = useState<Presentation | null>(null)
   const [qaRefreshTrigger, setQaRefreshTrigger] = useState(0)
 
@@ -85,12 +82,6 @@ export default function LearningLibraryPage() {
     fetchPresentations()
   }, [fetchPresentations])
 
-  const handleUploadSuccess = () => {
-    fetchPresentations()
-    // Trigger Q&A section refresh after a short delay to allow text extraction
-    setTimeout(() => setQaRefreshTrigger(prev => prev + 1), 2000)
-  }
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
@@ -106,13 +97,6 @@ export default function LearningLibraryPage() {
               <div className="h-8 w-px bg-white/30" />
               <p className="text-lg font-medium text-white/90">Learning Library</p>
             </div>
-            <Button
-              onClick={() => setUploadModalOpen(true)}
-              className="bg-[#3AAAE1] hover:bg-[#3AAAE1]/90 text-white"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Upload Presentation
-            </Button>
           </div>
         </div>
       </header>
@@ -140,16 +124,9 @@ export default function LearningLibraryPage() {
               <BookOpen className="h-8 w-8 text-[#3AAAE1]" />
             </div>
             <h3 className="text-lg font-semibold text-foreground mb-2">No presentations yet</h3>
-            <p className="text-muted-foreground mb-6">
-              Upload your first presentation to get started.
+            <p className="text-muted-foreground">
+              Check back soon for training materials and resources.
             </p>
-            <Button
-              onClick={() => setUploadModalOpen(true)}
-              className="bg-[#1D3E6E] hover:bg-[#1D3E6E]/90 text-white"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Upload Presentation
-            </Button>
           </div>
         ) : (
           <div className="flex flex-col gap-10">
@@ -221,13 +198,6 @@ export default function LearningLibraryPage() {
           </div>
         </div>
       </footer>
-
-      {/* Modals */}
-      <UploadModal
-        isOpen={uploadModalOpen}
-        onClose={() => setUploadModalOpen(false)}
-        onUploadSuccess={handleUploadSuccess}
-      />
 
       {selectedPresentation && (
         <PresentationViewer
