@@ -26,6 +26,24 @@ export const CATEGORIES: Category[] = [
 
 export const DEFAULT_CATEGORY: CategoryId = 'damage'
 
+/**
+ * Explicit display order for resources within a category, matched by title
+ * substring (case-insensitive). Items matching an earlier entry sort first;
+ * anything not listed keeps its original relative order after these.
+ */
+export const RESOURCE_ORDER: string[] = [
+  'Damage Claims Portal',
+]
+
+/** Resolve a sort index for a resource title; lower sorts first. */
+export function resolveOrder(title: string): number {
+  const normalized = title.toLowerCase()
+  const idx = RESOURCE_ORDER.findIndex((keyword) =>
+    normalized.includes(keyword.toLowerCase()),
+  )
+  return idx === -1 ? RESOURCE_ORDER.length : idx
+}
+
 const CATEGORY_STORAGE_KEY = 'rg-categories'
 
 /**
