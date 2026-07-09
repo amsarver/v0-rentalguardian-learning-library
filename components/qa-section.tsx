@@ -54,7 +54,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
           </div>
           <div>
             <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
-            <p className="text-sm text-muted-foreground">AI-generated from your presentations</p>
+            <p className="text-sm text-muted-foreground">Based on your Damage Claims resources</p>
           </div>
         </div>
         <div className="flex items-center justify-center py-12">
@@ -77,7 +77,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
             </div>
             <div>
               <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
-              <p className="text-sm text-muted-foreground">AI-generated from your presentations</p>
+              <p className="text-sm text-muted-foreground">Based on your Damage Claims resources</p>
             </div>
           </div>
         </div>
@@ -98,7 +98,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
           </div>
           <div>
             <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
-            <p className="text-sm text-muted-foreground">AI-generated from your presentations</p>
+            <p className="text-sm text-muted-foreground">Based on your Damage Claims resources</p>
           </div>
         </div>
         <Button
