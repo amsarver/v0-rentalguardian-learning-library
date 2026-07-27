@@ -34,6 +34,7 @@ export const DEFAULT_CATEGORY: CategoryId = 'damage'
 export const RESOURCE_ORDER: string[] = [
   'Home Guardian',
   'Damage Claims Portal',
+  'Travel Guardian',
 ]
 
 /** Resolve a sort index for a resource title; lower sorts first. */
