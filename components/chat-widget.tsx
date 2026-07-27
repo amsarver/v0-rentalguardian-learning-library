@@ -3,15 +3,18 @@
 import { useState } from 'react'
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
-import { X, MessageCircle, Send, Bot, User, Loader2 } from 'lucide-react'
+import { X, MessageCircle, Send, Bot, User, Loader2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
   
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
+    onError: (err) => {
+      console.error('[v0] Chat widget error:', err)
+    },
   })
   
   const isLoading = status === 'streaming' || status === 'submitted'
@@ -101,6 +104,22 @@ export function ChatWidget() {
                 </div>
                 <div className="bg-muted rounded-lg px-3 py-2">
                   <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                </div>
+              </div>
+            )}
+
+            {error && (
+              <div className="flex gap-2 justify-start">
+                <div className="w-7 h-7 bg-destructive/10 rounded-full flex items-center justify-center flex-shrink-0">
+                  <AlertCircle className="h-4 w-4 text-destructive" />
+                </div>
+                <div className="max-w-[80%] rounded-lg px-3 py-2 text-sm bg-destructive/10 text-foreground">
+                  Sorry, I couldn&apos;t process that request. Please try again, or contact
+                  RentalGuardian Support at{' '}
+                  <a href="mailto:support@rentalguardian.com" className="underline">
+                    support@rentalguardian.com
+                  </a>{' '}
+                  or (888) 885-5550.
                 </div>
               </div>
             )}
