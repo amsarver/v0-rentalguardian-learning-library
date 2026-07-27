@@ -192,6 +192,18 @@ export default function LearningLibraryPage() {
               alt="RentalGuardian"
               className="h-10 w-auto opacity-90"
             />
+            <p className="text-white/50 text-xs leading-relaxed max-w-4xl text-center text-pretty">
+              RentalGuardian.com is an online service/support distribution platform, and is not a
+              licensed insurance agency, nor does it represent or sell insurance. This presentation
+              is not intended to be an offer to solicit or sell RentalGuardian.com Recommended
+              Platform Provider insurance programs in any jurisdiction where a RentalGuardian.com
+              Recommended Platform Provider or their Underwriter(s) are not authorized or where such
+              action would be unlawful. Only licensed insurance agents are qualified to evaluate the
+              adequacy of your coverage or provide detailed explanation of coverage provisions,
+              terms, and conditions. Products are offered by InsureStays (dba of Sandhills Insurance
+              Group), via the RentalGuardian.com software distribution platform. PN 16269113,
+              California License No.: 0M14453, Texas License No.: 2194106 &amp; 2205876.
+            </p>
             <p className="text-white/60 text-sm">
               &copy; {new Date().getFullYear()} RentalGuardian. All rights reserved.
             </p>
