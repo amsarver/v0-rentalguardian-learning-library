@@ -30,7 +30,7 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'When do I need to submit my claim?',
     answer:
-      'Submit your claim within 14 days after the guest checks out, and you can share any additional details within 45 days after checkout. You must include at least 2 photos (the damaged item and a related invoice/receipt) to proceed.',
+      'The current process does not have a specific submission deadline—claims should be reported as soon as reasonably practical after a loss is discovered. You must include at least 2 photos (the damaged item and a related invoice/receipt) to proceed, and after submission you should allow up to 24 hours before tracking your claim.',
   },
   {
     question: 'What files can I upload, and are there size limits?',
@@ -65,7 +65,7 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'When is Damage Protection billed?',
     answer:
-      'Damage Protection is billed in the month the reservation checks in—a stay booked weeks or months ahead is not charged until the month the guest arrives, because billing is tied to when coverage is active. Charges apply per coverage period based on your selected level, and longer stays are billed in installments (for example, a 30-day product covering a 60-day stay is billed as two 30-day installments), up to the maximum allowable stay of 180 days.',
+      'Damage Protection is billed in the month the reservation checks in—a stay booked weeks or months ahead is not charged until the month the guest arrives, because billing is tied to when coverage is active. It covers short- and mid-term stays (long-term stays are not part of the model). Charges apply per coverage period based on your selected level, and longer stays are billed in installments (for example, a 30-day product covering a 60-day stay is billed as two 30-day installments), up to the maximum allowable stay of 180 days.',
   },
   {
     question: 'When is Travel Protection billed, and how does compensation work?',
@@ -80,7 +80,12 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'What are the refund and cancellation rules for each product?',
     answer:
-      'Damage Protection cancellations are accepted up to 1 day before check-in with proof; same-day and post-check-in requests are automatically denied. Travel Protection offers a Free Look Period (often 15 days from purchase, per policy) during which travelers can cancel for a full refund; after it, policies cannot be decreased or canceled. Booking Guardian does not accept any refunds or cancellations.',
+      'Damage Protection cancellations are accepted up to 1 day before check-in with proof; same-day and post-check-in requests are automatically denied. Travel Protection offers a Free Look Period (often 15 days from purchase, per policy) during which travelers can cancel for a full refund—within this window you can also add travelers by cancelling and reissuing (max 10 per policy). After the free look period, policies cannot be decreased or canceled, though you may increase the trip cost and collect the difference from the guest. Booking Guardian does not accept any refunds or cancellations.',
+  },
+  {
+    question: 'How must Travel Protection premiums be handled (trust accounting)?',
+    answer:
+      'Per Section 8 of the Coverage Authorization Agreement, program premiums held prior to remittance are held in trust and must be kept in a separate trust account—never commingled with other funds. This fiduciary responsibility ensures timely remittance, and insurance premiums are non-refundable and should stay separate from trip costs.',
   },
   {
     question: 'What payment methods are used and when are payments processed?',
