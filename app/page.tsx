@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { BookOpen, Loader2, ShieldCheck, Plane, CreditCard } from 'lucide-react'
+import { BookOpen, Loader2, ShieldCheck, Plane, CreditCard, MapPin, Phone, Mail } from 'lucide-react'
 import { PresentationCard } from '@/components/presentation-card'
 import { PresentationViewer } from '@/components/presentation-viewer'
 import { ChatWidget } from '@/components/chat-widget'
@@ -181,6 +181,70 @@ export default function LearningLibraryPage() {
         <div className="mt-12">
           <QASection refreshTrigger={qaRefreshTrigger} />
         </div>
+
+        {/* Contact Us Section */}
+        <section aria-labelledby="contact-us" className="mt-12">
+          <div className="bg-card rounded-lg border border-border p-8">
+            <h3 id="contact-us" className="text-xl font-semibold text-[#1D3E6E] mb-6">
+              Contact Us
+            </h3>
+            <div className="grid gap-6 sm:grid-cols-3">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 shrink-0 bg-[#3AAAE1]/10 rounded-full flex items-center justify-center">
+                  <MapPin className="h-5 w-5 text-[#3AAAE1]" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">Address</p>
+                  <address className="text-sm text-muted-foreground not-italic leading-relaxed">
+                    RentalGuardian
+                    <br />
+                    4605 Duke Drive #300
+                    <br />
+                    Mason, Ohio 45040
+                  </address>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 shrink-0 bg-[#3AAAE1]/10 rounded-full flex items-center justify-center">
+                  <Phone className="h-5 w-5 text-[#3AAAE1]" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">Support</p>
+                  <a
+                    href="tel:+18888855550"
+                    className="text-sm text-muted-foreground hover:text-[#3AAAE1] transition-colors"
+                  >
+                    (888) 885-5550
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 shrink-0 bg-[#3AAAE1]/10 rounded-full flex items-center justify-center">
+                  <Mail className="h-5 w-5 text-[#3AAAE1]" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-1">Email</p>
+                  <div className="flex flex-col gap-1">
+                    <a
+                      href="mailto:Sales@rentalguardian.com"
+                      className="text-sm text-muted-foreground hover:text-[#3AAAE1] transition-colors"
+                    >
+                      Sales@rentalguardian.com
+                    </a>
+                    <a
+                      href="mailto:Support@rentalguardian.com"
+                      className="text-sm text-muted-foreground hover:text-[#3AAAE1] transition-colors"
+                    >
+                      Support@rentalguardian.com
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
@@ -192,6 +256,18 @@ export default function LearningLibraryPage() {
               alt="RentalGuardian"
               className="h-10 w-auto opacity-90"
             />
+            <p className="text-white/50 text-xs leading-relaxed max-w-4xl text-center text-pretty">
+              RentalGuardian.com is an online service/support distribution platform, and is not a
+              licensed insurance agency, nor does it represent or sell insurance. This presentation
+              is not intended to be an offer to solicit or sell RentalGuardian.com Recommended
+              Platform Provider insurance programs in any jurisdiction where a RentalGuardian.com
+              Recommended Platform Provider or their Underwriter(s) are not authorized or where such
+              action would be unlawful. Only licensed insurance agents are qualified to evaluate the
+              adequacy of your coverage or provide detailed explanation of coverage provisions,
+              terms, and conditions. Products are offered by InsureStays (dba of Sandhills Insurance
+              Group), via the RentalGuardian.com software distribution platform. PN 16269113,
+              California License No.: 0M14453, Texas License No.: 2194106 &amp; 2205876.
+            </p>
             <p className="text-white/60 text-sm">
               &copy; {new Date().getFullYear()} RentalGuardian. All rights reserved.
             </p>
