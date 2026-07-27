@@ -32,6 +32,7 @@ export const DEFAULT_CATEGORY: CategoryId = 'damage'
  * anything not listed keeps its original relative order after these.
  */
 export const RESOURCE_ORDER: string[] = [
+  'Home Guardian',
   'Damage Claims Portal',
 ]
 
