@@ -8,13 +8,15 @@ interface PresentationViewerProps {
   url: string
   pathname: string
   title: string
-  fileType: 'pdf' | 'powerpoint'
+  fileType: 'pdf' | 'powerpoint' | 'link'
   onClose: () => void
 }
 
 export function PresentationViewer({ url, title, fileType, onClose }: PresentationViewerProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  const isLink = fileType === 'link'
 
   // Microsoft Office Online viewer URL for PowerPoint files
   const officeViewerUrl = fileType === 'powerpoint' 
@@ -26,7 +28,8 @@ export function PresentationViewer({ url, title, fileType, onClose }: Presentati
     ? `https://docs.google.com/gview?url=${encodeURIComponent(url)}&embedded=true`
     : null
 
-  const viewerUrl = officeViewerUrl || pdfViewerUrl
+  // Interactive link resources embed their URL directly
+  const viewerUrl = isLink ? url : (officeViewerUrl || pdfViewerUrl)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
@@ -61,15 +64,17 @@ export function PresentationViewer({ url, title, fileType, onClose }: Presentati
       <div className="flex items-center justify-between px-4 py-3 bg-[#1D3E6E] border-b border-white/10">
         <h2 className="text-lg font-semibold text-white truncate max-w-[50%]">{title}</h2>
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleDownload}
-            className="text-white/80 hover:text-white hover:bg-white/10 gap-1.5"
-          >
-            <Download className="h-4 w-4" />
-            Download
-          </Button>
+          {!isLink && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDownload}
+              className="text-white/80 hover:text-white hover:bg-white/10 gap-1.5"
+            >
+              <Download className="h-4 w-4" />
+              Download
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="sm"
