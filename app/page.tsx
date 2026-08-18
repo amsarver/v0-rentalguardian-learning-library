@@ -14,9 +14,22 @@ interface Presentation {
   title: string
   uploadedAt: string
   size: number
-  fileType: 'pdf' | 'powerpoint'
+  fileType: 'pdf' | 'powerpoint' | 'link'
   category?: CategoryId
 }
+
+// External interactive resources (not stored in Blob) that open in the embedded viewer.
+const STATIC_RESOURCES: Presentation[] = [
+  {
+    url: 'https://inhabit.navattic.com/e4110c9g?g=cms6heh46000000iq8m2lno3w&s=0',
+    pathname: 'static/past-due-balance-resolution-guide',
+    title: 'Past Due Balance Resolution Guide',
+    uploadedAt: new Date().toISOString(),
+    size: 0,
+    fileType: 'link',
+    category: 'billing',
+  },
+]
 
 const CATEGORY_ICONS: Record<CategoryId, typeof ShieldCheck> = {
   damage: ShieldCheck,
@@ -64,7 +77,7 @@ export default function LearningLibraryPage() {
         const cleanedLocalData = localData.filter((p: Presentation) => blobUrls.has(p.url))
         localStorage.setItem('rg-presentations', JSON.stringify(cleanedLocalData))
         
-        setPresentations(merged)
+        setPresentations([...merged, ...STATIC_RESOURCES])
       }
     } catch (error) {
       console.error('Error fetching presentations:', error)

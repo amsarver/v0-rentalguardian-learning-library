@@ -1,6 +1,6 @@
 'use client'
 
-import { FileText, Calendar, HardDrive, Presentation } from 'lucide-react'
+import { FileText, Calendar, HardDrive, Presentation, MousePointerClick } from 'lucide-react'
 
 interface PresentationData {
   url: string
@@ -8,7 +8,7 @@ interface PresentationData {
   title: string
   uploadedAt: string
   size: number
-  fileType: 'pdf' | 'powerpoint'
+  fileType: 'pdf' | 'powerpoint' | 'link'
 }
 
 interface PresentationCardProps {
@@ -31,6 +31,13 @@ export function PresentationCard({ presentation, onClick }: PresentationCardProp
   }
 
   const isPowerPoint = presentation.fileType === 'powerpoint'
+  const isLink = presentation.fileType === 'link'
+
+  const iconWrapperClass = isLink
+    ? 'bg-[#3AAAE1]'
+    : isPowerPoint
+      ? 'bg-[#F5A623]'
+      : 'bg-[#1D3E6E]'
 
   return (
     <button
@@ -38,10 +45,10 @@ export function PresentationCard({ presentation, onClick }: PresentationCardProp
       className="group w-full text-left bg-card rounded-lg border border-border p-5 hover:border-[#3AAAE1] hover:shadow-lg transition-all duration-200"
     >
       <div className="flex items-start gap-4">
-        <div className={`flex-shrink-0 w-12 h-14 rounded-lg flex items-center justify-center group-hover:opacity-90 transition-colors ${
-          isPowerPoint ? 'bg-[#F5A623]' : 'bg-[#1D3E6E]'
-        }`}>
-          {isPowerPoint ? (
+        <div className={`flex-shrink-0 w-12 h-14 rounded-lg flex items-center justify-center group-hover:opacity-90 transition-colors ${iconWrapperClass}`}>
+          {isLink ? (
+            <MousePointerClick className="h-6 w-6 text-white" />
+          ) : isPowerPoint ? (
             <Presentation className="h-6 w-6 text-white" />
           ) : (
             <FileText className="h-6 w-6 text-white" />
@@ -56,16 +63,20 @@ export function PresentationCard({ presentation, onClick }: PresentationCardProp
               <Calendar className="h-3.5 w-3.5" />
               {formatDate(presentation.uploadedAt)}
             </span>
-            <span className="flex items-center gap-1">
-              <HardDrive className="h-3.5 w-3.5" />
-              {formatSize(presentation.size)}
-            </span>
+            {!isLink && (
+              <span className="flex items-center gap-1">
+                <HardDrive className="h-3.5 w-3.5" />
+                {formatSize(presentation.size)}
+              </span>
+            )}
             <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-              isPowerPoint 
-                ? 'bg-[#F5A623]/10 text-[#F5A623]' 
-                : 'bg-[#3AAAE1]/10 text-[#3AAAE1]'
+              isLink
+                ? 'bg-[#3AAAE1]/10 text-[#3AAAE1]'
+                : isPowerPoint
+                  ? 'bg-[#F5A623]/10 text-[#F5A623]'
+                  : 'bg-[#3AAAE1]/10 text-[#3AAAE1]'
             }`}>
-              {isPowerPoint ? 'PowerPoint' : 'PDF'}
+              {isLink ? 'Interactive Guide' : isPowerPoint ? 'PowerPoint' : 'PDF'}
             </span>
           </div>
         </div>
