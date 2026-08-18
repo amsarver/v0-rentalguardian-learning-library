@@ -102,6 +102,11 @@ export const CURATED_FAQS: QAItem[] = [
     answer:
       'For general billing inquiries, contact the RentalGuardian Support team at support@rentalguardian.com. For escalated billing or invoicing requests, contact accounting@insurestays.com. This billing structure applies consistently across all RentalGuardian clients and products.',
   },
+  {
+    question: 'How do I resolve a past-due balance?',
+    answer:
+      'Sign in to the RentalGuardian portal and click the blue "Pay Now" button on the dashboard to open your running invoice and review the amount due. Submit payment using your enrolled method—credit card or ACH (ACH is strongly recommended; enroll at rentalguardian.com/ach-form). The interactive Past Due Balance Resolution Guide in the Billing and Payments section walks through each step, and you can contact support@rentalguardian.com or (888) 885-5550 (Prompt 2) for help.',
+  },
 ]
 
 /**
