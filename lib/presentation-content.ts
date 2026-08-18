@@ -1,5 +1,6 @@
 import { list } from '@vercel/blob'
 import JSZip from 'jszip'
+import { STATIC_RESOURCES } from './static-resources'
 
 export interface ResourceContent {
   title: string
@@ -88,6 +89,14 @@ export async function getAllResourceContent(): Promise<ResourceContent[]> {
       }
     } catch (error) {
       console.error(`[v0] Failed to extract text from ${blob.pathname}:`, error)
+    }
+  }
+
+  // Include static (non-Blob) resources such as interactive guides so the FAQ
+  // generator and chat assistant stay synced to all Learning Library content.
+  for (const resource of STATIC_RESOURCES) {
+    if (resource.content && resource.content.trim()) {
+      results.push({ title: resource.title, text: resource.content.trim() })
     }
   }
 

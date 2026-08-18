@@ -7,6 +7,7 @@ import { PresentationViewer } from '@/components/presentation-viewer'
 import { ChatWidget } from '@/components/chat-widget'
 import { QASection } from '@/components/qa-section'
 import { CATEGORIES, resolveCategory, resolveOrder, type CategoryId } from '@/lib/categories'
+import { STATIC_RESOURCES } from '@/lib/static-resources'
 
 interface Presentation {
   url: string
@@ -18,18 +19,18 @@ interface Presentation {
   category?: CategoryId
 }
 
-// External interactive resources (not stored in Blob) that open in the embedded viewer.
-const STATIC_RESOURCES: Presentation[] = [
-  {
-    url: 'https://inhabit.navattic.com/e4110c9g?g=cms6heh46000000iq8m2lno3w&s=0',
-    pathname: 'static/past-due-balance-resolution-guide',
-    title: 'Past Due Balance Resolution Guide',
-    uploadedAt: new Date().toISOString(),
-    size: 0,
-    fileType: 'link',
-    category: 'billing',
-  },
-]
+// External interactive resources (not stored in Blob) that open in the embedded
+// viewer. Mapped from the shared definition so the library UI, FAQ generator,
+// and chat assistant all stay synced to the same source of truth.
+const STATIC_PRESENTATIONS: Presentation[] = STATIC_RESOURCES.map((r) => ({
+  url: r.url,
+  pathname: r.pathname,
+  title: r.title,
+  uploadedAt: new Date().toISOString(),
+  size: 0,
+  fileType: r.fileType,
+  category: r.category,
+}))
 
 const CATEGORY_ICONS: Record<CategoryId, typeof ShieldCheck> = {
   damage: ShieldCheck,
@@ -77,7 +78,7 @@ export default function LearningLibraryPage() {
         const cleanedLocalData = localData.filter((p: Presentation) => blobUrls.has(p.url))
         localStorage.setItem('rg-presentations', JSON.stringify(cleanedLocalData))
         
-        setPresentations([...merged, ...STATIC_RESOURCES])
+        setPresentations([...merged, ...STATIC_PRESENTATIONS])
       }
     } catch (error) {
       console.error('Error fetching presentations:', error)
