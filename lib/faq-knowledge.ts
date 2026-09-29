@@ -6,8 +6,9 @@ export interface QAItem {
 /**
  * Curated FAQs derived from the current RentalGuardian resources:
  * the "Damage Claims FAQ" (Last Updated July 2026), the "RentalGuardian
- * Damage Claims Portal Training" guide, and the "Billing Overview" (Billing &
- * Payments for all RentalGuardian clients). Used as a reliable, up-to-date
+ * Smart.ly and mySedgwick" guide, the "Billing Overview" (Billing & Payments
+ * for all RentalGuardian clients), and the "Past Due Balance Resolution
+ * Guide". Used as a reliable, up-to-date
  * source for the FAQ section and the chat assistant whenever live AI is
  * unavailable.
  */

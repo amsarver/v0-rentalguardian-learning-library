@@ -23,7 +23,7 @@ function getUIMessageText(msg: UIMessage | undefined): string {
 function buildFallbackAnswer(question: string): string {
   const matches = findRelevantFaqs(question, 2)
   if (matches.length === 0) {
-    return "I can share information straight from the RentalGuardian Damage Claims resources. Try asking about filing a claim, required photos, file upload limits, claim tracking in mySedgwick, payments and direct deposit, or how to contact support."
+    return "I can share information straight from the RentalGuardian Learning Library resources. Try asking about filing a damage claim, file upload limits, claim tracking in mySedgwick, product billing, resolving a past-due balance, or how to contact support."
   }
   const body = matches.map((m) => `**${m.question}**\n${m.answer}`).join('\n\n')
   return `${body}\n\nFor anything else, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2).`
