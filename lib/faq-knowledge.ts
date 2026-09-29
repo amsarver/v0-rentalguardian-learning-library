@@ -4,13 +4,11 @@ export interface QAItem {
 }
 
 /**
- * Curated FAQs derived from the current RentalGuardian resources:
- * the "Damage Claims FAQ" (Last Updated July 2026), the "RentalGuardian
- * Smart.ly and mySedgwick" guide, the "Billing Overview" (Billing & Payments
- * for all RentalGuardian clients), and the "Past Due Balance Resolution
- * Guide". Used as a reliable, up-to-date
- * source for the FAQ section and the chat assistant whenever live AI is
- * unavailable.
+ * Curated FAQs derived from the current RentalGuardian Learning Library
+ * resources: "Damage Claims FAQs", "Home Guardian Overview", "Travel Guardian
+ * Overview", "Billing Overview", and the "Past Due Balance Resolution Guide".
+ * Used as a reliable, up-to-date source for the FAQ section and the chat
+ * assistant whenever live AI is unavailable.
  */
 export const CURATED_FAQS: QAItem[] = [
   {
@@ -61,7 +59,47 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'Who do I contact for help?',
     answer:
-      'For assistance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2), available Mon–Sat, 8:30 AM–5:30 PM EST. For technical questions about a claim submission, contact 860.626.9943 or Robin.Doran@sedgwick.com, or reach your assigned examiner through the mySedgwick claims tracking portal.',
+      'For assistance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2), available Mon–Sat, 8:30 AM–5:30 PM EST. For technical questions about a claim submission, contact 860.626.9943 or Robin.Doran@sedgwick.com, or reach your assigned examiner through the mySedgwick claims tracking portal. For travel insurance claims, travelers can reach the travel claims team at 833-610-0736 (Prompts 1, 1, 3).',
+  },
+  {
+    question: 'What is Home Guardian Plus and what does it cover?',
+    answer:
+      'Home Guardian Plus is a damage and liability protection program for short-term and vacation rentals that protects both property managers and homeowners against accidental guest-caused damage. It includes four types of protection: Contents ($500–$25,000, e.g. damaged TVs, furniture, appliances, carpet stains), Liability (up to $1,000,000 for guest bodily injury claims), Real Property (up to $1,000,000 for major dwelling damage like kitchen fires or water overflows), and Bed Bug (up to $15,000 for extermination, soft-furnishing replacement, and lost rental income after 72 hours).',
+  },
+  {
+    question: 'How are Home Guardian liability claims handled?',
+    answer:
+      'Liability claims are adjudicated by a third-party adjudicator. Unlike contents claims, RentalGuardian does not have direct access to liability claim status—the adjudicator will reach out to you, or you can contact support@rentalguardian.com for updates.',
+  },
+  {
+    question: 'What documentation is required for a Home Guardian damage claim?',
+    answer:
+      'Provide dated photographs of the damage, a paid invoice or receipt for the repair or replacement showing a $0 balance due, pre-approval review if required for the claim type, records confirming the date the guest caused the damage, and dated documentation for late or extended claims. Non-occupant theft claims require a copy of a police report, and mysterious disappearance or theft may not be a covered peril.',
+  },
+  {
+    question: 'What should I know to submit a successful Home Guardian claim?',
+    answer:
+      'Claims must reflect accidental guest-caused damage tied to a valid reservation, and only 1 claim is allowed per reservation—wait until the guest checks out if there are multiple damages. Smoking or excessive-cleaning claims may require proof of the rental agreement, and you should review your address details if you are not enrolled in ACH payments. Under the principle of indemnity, claims are approved at the replacement cost of the damaged item for like kind, quality, and value—upgrades are allowed but are not covered beyond that amount.',
+  },
+  {
+    question: 'What travel insurance products does RentalGuardian offer?',
+    answer:
+      'There are two products. Base Travel Protection reimburses up to 100% of non-refundable trip costs for Trip Cancellation, Trip Interruption, and Trip Delay across 30+ covered reasons (such as illness, injury, medical emergencies, death in the family, and natural disasters; coverage can vary by state). Cancel For Any Reason (CFAR) is an optional enhancement that reimburses up to 60% of non-refundable trip costs; the traveler must cancel at least 48 hours before check-in, and it is available to U.S. and Canadian residents only (not New York, Puerto Rico, the U.S. Virgin Islands, or international residents).',
+  },
+  {
+    question: 'When can travelers purchase or change travel insurance?',
+    answer:
+      'Base Travel Protection can be purchased up to 24 hours before the trip start date, even if the guest did not buy it at booking. CFAR must be purchased within 14 days of the original booking (the date of first deposit). Travelers have a 15-day free look period for a full premium refund; after that, payment is final, and no changes or refunds are allowed once check-in happens. If the trip cost increases, have the traveler contact support@rentalguardian.com to increase the policy before the trip start date. Each reseller also has a co-branded microsite for initial and second-chance purchases.',
+  },
+  {
+    question: 'Who owns a travel policy, and can resellers see claim details?',
+    answer:
+      'The traveler is the named insured and owns the policy—all claim decisions, communications, and payments go to the traveler. Because of HIPAA and privacy requirements, resellers and property management companies cannot access claim details. Resellers can direct travelers to the travel claims team at 833-610-0736 (Prompts 1, 1, 3) and encourage prompt filing; travelers may choose to share their status with you.',
+  },
+  {
+    question: 'How do travel claims work, and what are common exclusions?',
+    answer:
+      'The traveler files and updates the claim by phone, online, or digitally, and each update can take up to 15 business days (longer in peak seasons like hurricane season). Proof of payment, proof of cancellation, and traveler details are required, and payments are typically issued to the traveler. Common exclusions include policies purchased after a named storm or after the trip was already cancelled, pre-existing medical conditions, acts of war, and trips booked with credit card points or loyalty rewards. Neither RentalGuardian nor resellers can guarantee a claim outcome, and premiums for denied claims are non-refundable.',
   },
   {
     question: 'When is Damage Protection billed?',
