@@ -33,6 +33,7 @@ export const DEFAULT_CATEGORY: CategoryId = 'damage'
  */
 export const RESOURCE_ORDER: string[] = [
   'Home Guardian',
+  'Submit a Damage Claim',
   'Travel Guardian',
 ]
 
