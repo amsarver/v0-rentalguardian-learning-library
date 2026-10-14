@@ -54,7 +54,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
             <HelpCircle className="h-5 w-5 text-[#F5A623]" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-semibold text-[#1D3E6E]">Comprehensive FAQ Catalog</h2>
           </div>
         </div>
         <div className="flex items-center justify-center py-12">
@@ -76,7 +76,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
               <HelpCircle className="h-5 w-5 text-[#F5A623]" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
+              <h2 className="text-xl font-semibold text-[#1D3E6E]">Comprehensive FAQ Catalog</h2>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
             <HelpCircle className="h-5 w-5 text-[#F5A623]" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-semibold text-[#1D3E6E]">Comprehensive FAQ Catalog</h2>
             <p className="text-sm text-muted-foreground">
               {questions.length} questions from the Learning Library
             </p>
