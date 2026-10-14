@@ -5,61 +5,62 @@ export interface QAItem {
 
 /**
  * Curated FAQs derived from the current RentalGuardian Learning Library
- * resources: "Damage Claims FAQs", "Home Guardian Overview", "Travel Guardian
- * Overview", "Billing Overview", and the "Past Due Balance Resolution Guide".
+ * resources: "How to Submit a Damage Claim", "Home Guardian Overview", "Travel Guardian
+ * Overview", "Travel Protection FAQ", "Billing Overview", and the "Past Due
+ * Balance Resolution Guide".
  * Used as a reliable, up-to-date source for the FAQ section and the chat
  * assistant whenever live AI is unavailable.
  */
 export const CURATED_FAQS: QAItem[] = [
   {
-    question: 'What is the RentalGuardian Damage Claims Portal for?',
+    question: 'What do I need before starting a damage claim?',
     answer:
-      'It is used to submit a damage claim for guest-caused accidental damage that occurred during a stay. The guided portal collects all the details needed to review and process your claim, and is powered by a claims submission tool called Smart.ly.',
+      'Have the following ready: reservation details, payee contact information, incident details, the repair or replacement cost, dated photos of the damage, and a paid invoice or receipt showing payment in full.',
   },
   {
-    question: 'Who should complete the claim, and what do I need before starting?',
+    question: 'How do I start a damage claim in the RentalGuardian Portal?',
     answer:
-      'The property owner, manager, or authorized representative reporting the damage should complete the form. Have ready: when the damage was reported, the related reservation/booking details, property/unit information, a description of the damage, and supporting documentation such as photos, invoices, and receipts.',
+      'Log in to the RentalGuardian Property Manager Portal and select the Claims button on the main dashboard. Locate the reservation coverage by choosing a Search Field, entering the Search Value, and clicking Search, then click Open Claim to begin.',
   },
   {
-    question: 'How long does it take, and can I save my progress?',
+    question: 'How do I find the reservation coverage for a claim?',
     answer:
-      'The guided, step-by-step form takes about 10 minutes when your information is prepared in advance. The portal does not save progress—if the session is idle for more than 20 minutes, you must close the URL and start again.',
+      'You can search by Booking/Reservation Number, Record ID, Certificate Number, Customer Name, Customer Phone Number, or Customer Email Address. Most property management companies find the Booking/Reservation Number to be the quickest and most accurate search method.',
   },
   {
-    question: 'When do I need to submit my claim?',
+    question: 'What sections are in the claim submission?',
     answer:
-      'The current process does not have a specific submission deadline—claims should be reported as soon as reasonably practical after a loss is discovered. You must include at least 2 photos (the damaged item and a related invoice/receipt) to proceed, and after submission you should allow up to 24 hours before tracking your claim.',
+      'There are four sections, and each must be completed before the claim is submitted: (1) Contact Information, (2) Incident Details, (3) Documentation, and (4) Submission.',
   },
   {
-    question: 'What files can I upload, and are there size limits?',
+    question: 'What contact information is required?',
     answer:
-      'Smart.ly supports images (JPG, JPEG, PNG, GIF) and documents (PDF, DOC, DOCX, TXT). Each file must be 6 MB or smaller, and all uploaded files together must stay under 29 MB. Videos are not supported—capture clear screenshots instead and notify your adjudicator if additional video evidence is available.',
+      'Enter the payee information exactly as it should appear for claim payment: the full name of the individual or business receiving payment, the complete mailing address where payment should be sent, and an email address. That email address will receive all future claim correspondence and status updates.',
   },
   {
-    question: 'What happens after I submit my claim, and does AI decide the outcome?',
+    question: 'What incident details should I provide?',
     answer:
-      'Allow up to 24 hours for an adjuster to review and link your claim to the appropriate policy, after which you receive a claim number. No—AI does not approve or deny claims; all claim decisions are made by a Sedgwick examiner.',
+      'Include who discovered the damage, the date it was discovered, the total repair or replacement cost, a description of the damage, and how it was repaired or replaced. The more detailed and accurate the information, the faster the claim can be evaluated and processed.',
   },
   {
-    question: 'How do I track my claim and get updates?',
+    question: 'What documentation is required for a damage claim?',
     answer:
-      'Once you have a claim number, register and log in to the mySedgwick claim portal using your claim number along with your last name and address (city, state, and postal code). There you can track your claim status, receive updates, and communicate directly with your assigned examiner.',
+      'At minimum, upload at least one dated photograph showing the damage and at least one invoice or receipt showing payment made in full with no remaining balance. Recommended extras include multiple photos, before-and-after photos, additional receipts or contractor documentation, and any communication that supports the claim.',
   },
   {
-    question: 'How are approved claims paid, and how do I enroll in direct deposit?',
+    question: 'What should I check before submitting, and what happens next?',
     answer:
-      'Payments are issued directly by Sedgwick after the claim is finalized. In the claim portal, go to Direct Deposit Enrollment and choose Electronic Payment (direct deposit) or Mail (Mail is the default if no preference is selected). For direct deposit, provide your bank routing and account numbers, then authorize and submit—processing takes 7–10 business days.',
+      'Confirm the payee information, mailing address, and email are accurate; the incident details and repair or replacement cost are complete; required documentation is uploaded; and any required acknowledgment or initials are completed. After submission the claim enters review, and status updates are sent to the email address provided in Section 1.',
   },
   {
-    question: 'What should I do if I made a mistake or my upload failed?',
+    question: 'How can I help my claim get processed faster?',
     answer:
-      'If you made a mistake, contact your examiner on mySedgwick immediately with the corrected information. If an upload fails, confirm each file is under 6 MB (and all files under 29 MB total), retry the upload, and contact support if the issue persists.',
+      'Make sure photos are clear and dated, receipts show payment in full, damage descriptions are detailed and specific, contact information is complete and accurate, and all supporting evidence is uploaded before you submit.',
   },
   {
     question: 'Who do I contact for help?',
     answer:
-      'For assistance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2), available Mon–Sat, 8:30 AM–5:30 PM EST. For technical questions about a claim submission, contact 860.626.9943 or Robin.Doran@sedgwick.com, or reach your assigned examiner through the mySedgwick claims tracking portal. For travel insurance claims, travelers can reach the travel claims team at 833-610-0736 (Prompts 1, 1, 3).',
+      'For assistance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2), available Mon–Sat, 8:30 AM–5:30 PM EST. For travel insurance claims, travelers can reach the travel claims team at 833-610-0736 (Prompts 1, 1, 3).',
   },
   {
     question: 'What is Home Guardian Plus and what does it cover?',
@@ -100,6 +101,26 @@ export const CURATED_FAQS: QAItem[] = [
     question: 'How do travel claims work, and what are common exclusions?',
     answer:
       'The traveler files and updates the claim by phone, online, or digitally, and each update can take up to 15 business days (longer in peak seasons like hurricane season). Proof of payment, proof of cancellation, and traveler details are required, and payments are typically issued to the traveler. Common exclusions include policies purchased after a named storm or after the trip was already cancelled, pre-existing medical conditions, acts of war, and trips booked with credit card points or loyalty rewards. Neither RentalGuardian nor resellers can guarantee a claim outcome, and premiums for denied claims are non-refundable.',
+  },
+  {
+    question: 'When does travel coverage begin, and can a travel policy be cancelled for a refund?',
+    answer:
+      'Travel coverage begins at purchase and is charged in the month of purchase. A policy can be cancelled for a full refund within the 15-Day Free Look Period, provided there has been no incurred loss, the traveler has not departed on the trip, and no claim has been filed. After the Free Look Period, travel policies cannot be decreased or cancelled—even if the guest cancels, duplicate coverage was purchased, or the reservation moves to a different unit.',
+  },
+  {
+    question: 'Can travelers be added or trip cost increased after a travel policy is purchased?',
+    answer:
+      'Trip cost can be increased after the Free Look Period, but the difference must be collected. Travelers cannot be added to a purchased plan; during the Free Look Period, the policy can be cancelled and reissued with the correct travelers. Listing all traveler names at purchase is not required. A policy covers a maximum of 10 travelers—for parties larger than 10, do not purchase the plan, as no solution is currently available (the NW and Crum plans have a 10-traveler limit per rental unit).',
+  },
+  {
+    question: 'Who is paid on a travel claim, and how long do claim responses take?',
+    answer:
+      'The named insured is usually paid. In a partial loss, if the named insured wants a traveling companion who could not attend to receive payment, inform the travel claims team. Any traveler can file the claim but must provide proof of payment and traveler names. Responses from the claims team may take up to 15 business days depending on seasonality. RentalGuardian has no influence over claim outcomes—claims are adjudicated by licensed adjudicators outside our systems and cannot be expedited, overridden, or altered.',
+  },
+  {
+    question: 'What can a PMC or reseller do about travel policies and claims?',
+    answer:
+      'Travel policies belong solely to the traveler, so PMCs, resellers, and RentalGuardian cannot access claim status (HIPAA and medical privacy laws apply), though guests may share it themselves. PMCs and resellers cannot cancel a policy after the Free Look Period—decline the request and advise the traveler to file a claim if needed. Refunds are not allowed if the PMC or reseller already refunded the guest post Free Look, and RentalGuardian does not refund PMCs or guests when a claim is delayed or denied; any refund outside the claims process is at the PMC’s discretion.',
   },
   {
     question: 'When is Damage Protection billed?',

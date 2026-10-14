@@ -33,7 +33,9 @@ export const DEFAULT_CATEGORY: CategoryId = 'damage'
  */
 export const RESOURCE_ORDER: string[] = [
   'Home Guardian',
+  'Submit a Damage Claim',
   'Travel Guardian',
+  'Travel Protection FAQ',
 ]
 
 /** Resolve a sort index for a resource title; lower sorts first. */
@@ -59,7 +61,7 @@ export function inferCategory(title: string): CategoryId {
   if (/(travel|trip|traveler|traveller)/.test(normalized)) {
     return 'travel'
   }
-  if (/(damage|claim|claims|sedgwick|portal)/.test(normalized)) {
+  if (/(damage|claim|claims|portal)/.test(normalized)) {
     return 'damage'
   }
   return DEFAULT_CATEGORY

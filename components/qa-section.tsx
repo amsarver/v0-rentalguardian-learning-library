@@ -17,6 +17,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
   const [questions, setQuestions] = useState<QAItem[]>([])
   const [loading, setLoading] = useState(true)
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const fetchQuestions = async () => {
@@ -53,7 +54,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
             <HelpCircle className="h-5 w-5 text-[#F5A623]" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-semibold text-[#1D3E6E]">Comprehensive FAQ Catalog</h2>
           </div>
         </div>
         <div className="flex items-center justify-center py-12">
@@ -75,7 +76,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
               <HelpCircle className="h-5 w-5 text-[#F5A623]" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
+              <h2 className="text-xl font-semibold text-[#1D3E6E]">Comprehensive FAQ Catalog</h2>
             </div>
           </div>
         </div>
@@ -89,27 +90,49 @@ export function QASection({ refreshTrigger }: QASectionProps) {
 
   return (
     <section className="bg-white rounded-xl shadow-sm border border-border p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-[#F5A623]/10 rounded-lg flex items-center justify-center">
             <HelpCircle className="h-5 w-5 text-[#F5A623]" />
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-[#1D3E6E]">Frequently Asked Questions</h2>
+            <h2 className="text-xl font-semibold text-[#1D3E6E]">Comprehensive FAQ Catalog</h2>
+            <p className="text-sm text-muted-foreground">
+              {questions.length} questions from the Learning Library
+            </p>
           </div>
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={fetchQuestions}
-          className="text-[#3AAAE1] border-[#3AAAE1] hover:bg-[#3AAAE1]/10"
-        >
-          <RefreshCw className="h-4 w-4 mr-2" />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          {isOpen && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={fetchQuestions}
+              className="text-[#3AAAE1] border-[#3AAAE1] hover:bg-[#3AAAE1]/10"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh
+            </Button>
+          )}
+          <Button
+            size="sm"
+            onClick={() => setIsOpen((open) => !open)}
+            aria-expanded={isOpen}
+            aria-controls="faq-list"
+            className="bg-[#1D3E6E] text-white hover:bg-[#1D3E6E]/90"
+          >
+            {isOpen ? 'Hide FAQs' : 'Browse FAQs'}
+            {isOpen ? (
+              <ChevronUp className="h-4 w-4 ml-2" />
+            ) : (
+              <ChevronDown className="h-4 w-4 ml-2" />
+            )}
+          </Button>
+        </div>
       </div>
 
-      <div className="space-y-3">
+      {isOpen && (
+      <div id="faq-list" className="mt-6 flex flex-col gap-3">
         {questions.map((item, index) => (
           <div
             key={index}
@@ -134,6 +157,7 @@ export function QASection({ refreshTrigger }: QASectionProps) {
           </div>
         ))}
       </div>
+      )}
     </section>
   )
 }
