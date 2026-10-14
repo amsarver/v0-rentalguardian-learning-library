@@ -60,7 +60,7 @@ export function inferCategory(title: string): CategoryId {
   if (/(travel|trip|traveler|traveller)/.test(normalized)) {
     return 'travel'
   }
-  if (/(damage|claim|claims|sedgwick|portal)/.test(normalized)) {
+  if (/(damage|claim|claims|portal)/.test(normalized)) {
     return 'damage'
   }
   return DEFAULT_CATEGORY

@@ -59,7 +59,7 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'Who do I contact for help?',
     answer:
-      'For assistance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2), available Mon–Sat, 8:30 AM–5:30 PM EST. For technical questions about a claim submission, contact 860.626.9943 or Robin.Doran@sedgwick.com, or reach your assigned examiner through the mySedgwick claims tracking portal. For travel insurance claims, travelers can reach the travel claims team at 833-610-0736 (Prompts 1, 1, 3).',
+      'For assistance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2), available Mon–Sat, 8:30 AM–5:30 PM EST. For travel insurance claims, travelers can reach the travel claims team at 833-610-0736 (Prompts 1, 1, 3).',
   },
   {
     question: 'What is Home Guardian Plus and what does it cover?',

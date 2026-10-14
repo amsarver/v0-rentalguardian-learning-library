@@ -88,11 +88,6 @@ export default function LearningLibraryPage() {
   }, [])
 
   useEffect(() => {
-    // Set custom title for the presentation
-    const customTitles: Record<string, string> = {
-      'RentalGuardian Smart.ly and mySedgwick Compressed': 'RentalGuardian Smart.ly and mySedgwick Claims Process'
-    }
-    localStorage.setItem('rg-custom-titles', JSON.stringify(customTitles))
     fetchPresentations()
   }, [fetchPresentations])
 
