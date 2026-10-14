@@ -6,7 +6,8 @@ export interface QAItem {
 /**
  * Curated FAQs derived from the current RentalGuardian Learning Library
  * resources: "How to Submit a Damage Claim", "Home Guardian Overview", "Travel Guardian
- * Overview", "Billing Overview", and the "Past Due Balance Resolution Guide".
+ * Overview", "Travel Protection FAQ", "Billing Overview", and the "Past Due
+ * Balance Resolution Guide".
  * Used as a reliable, up-to-date source for the FAQ section and the chat
  * assistant whenever live AI is unavailable.
  */
@@ -100,6 +101,26 @@ export const CURATED_FAQS: QAItem[] = [
     question: 'How do travel claims work, and what are common exclusions?',
     answer:
       'The traveler files and updates the claim by phone, online, or digitally, and each update can take up to 15 business days (longer in peak seasons like hurricane season). Proof of payment, proof of cancellation, and traveler details are required, and payments are typically issued to the traveler. Common exclusions include policies purchased after a named storm or after the trip was already cancelled, pre-existing medical conditions, acts of war, and trips booked with credit card points or loyalty rewards. Neither RentalGuardian nor resellers can guarantee a claim outcome, and premiums for denied claims are non-refundable.',
+  },
+  {
+    question: 'When does travel coverage begin, and can a travel policy be cancelled for a refund?',
+    answer:
+      'Travel coverage begins at purchase and is charged in the month of purchase. A policy can be cancelled for a full refund within the 15-Day Free Look Period, provided there has been no incurred loss, the traveler has not departed on the trip, and no claim has been filed. After the Free Look Period, travel policies cannot be decreased or cancelled—even if the guest cancels, duplicate coverage was purchased, or the reservation moves to a different unit.',
+  },
+  {
+    question: 'Can travelers be added or trip cost increased after a travel policy is purchased?',
+    answer:
+      'Trip cost can be increased after the Free Look Period, but the difference must be collected. Travelers cannot be added to a purchased plan; during the Free Look Period, the policy can be cancelled and reissued with the correct travelers. Listing all traveler names at purchase is not required. A policy covers a maximum of 10 travelers—for parties larger than 10, do not purchase the plan, as no solution is currently available (the NW and Crum plans have a 10-traveler limit per rental unit).',
+  },
+  {
+    question: 'Who is paid on a travel claim, and how long do claim responses take?',
+    answer:
+      'The named insured is usually paid. In a partial loss, if the named insured wants a traveling companion who could not attend to receive payment, inform the travel claims team. Any traveler can file the claim but must provide proof of payment and traveler names. Responses from the claims team may take up to 15 business days depending on seasonality. RentalGuardian has no influence over claim outcomes—claims are adjudicated by licensed adjudicators outside our systems and cannot be expedited, overridden, or altered.',
+  },
+  {
+    question: 'What can a PMC or reseller do about travel policies and claims?',
+    answer:
+      'Travel policies belong solely to the traveler, so PMCs, resellers, and RentalGuardian cannot access claim status (HIPAA and medical privacy laws apply), though guests may share it themselves. PMCs and resellers cannot cancel a policy after the Free Look Period—decline the request and advise the traveler to file a claim if needed. Refunds are not allowed if the PMC or reseller already refunded the guest post Free Look, and RentalGuardian does not refund PMCs or guests when a claim is delayed or denied; any refund outside the claims process is at the PMC’s discretion.',
   },
   {
     question: 'When is Damage Protection billed?',

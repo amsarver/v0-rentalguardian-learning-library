@@ -35,6 +35,7 @@ export const RESOURCE_ORDER: string[] = [
   'Home Guardian',
   'Submit a Damage Claim',
   'Travel Guardian',
+  'Travel Protection FAQ',
 ]
 
 /** Resolve a sort index for a resource title; lower sorts first. */
