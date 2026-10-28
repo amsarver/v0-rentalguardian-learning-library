@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
+  const [showTeaser, setShowTeaser] = useState(true)
   
   const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
@@ -23,13 +24,37 @@ export function ChatWidget() {
     <>
       {/* Chat Button */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-[#3AAAE1] hover:bg-[#3AAAE1]/90 text-white rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105 z-50"
-          aria-label="Open chat assistant"
-        >
-          <MessageCircle className="h-6 w-6" />
-        </button>
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+          {showTeaser && (
+            <div className="relative max-w-xs rounded-xl border border-border bg-white px-4 py-3 pr-9 shadow-xl">
+              <p className="text-sm font-semibold text-foreground">Have a question?</p>
+              <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                Ask our AI assistant about any resource in the library.
+              </p>
+              <button
+                onClick={() => setShowTeaser(false)}
+                className="absolute right-2 top-2 rounded p-1 text-muted-foreground transition-colors hover:text-foreground"
+                aria-label="Dismiss chat prompt"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          )}
+          <button
+            onClick={() => {
+              setIsOpen(true)
+              setShowTeaser(false)
+            }}
+            className="group relative flex items-center gap-3 rounded-full bg-[#3AAAE1] py-3 pl-3 pr-6 text-white shadow-2xl ring-4 ring-[#3AAAE1]/25 transition-transform hover:scale-105 hover:bg-[#3AAAE1]/90"
+            aria-label="Open AI chat assistant"
+          >
+            <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-[#3AAAE1]/40" aria-hidden="true" />
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1D3E6E]">
+              <MessageCircle className="h-5 w-5" />
+            </span>
+            <span className="text-base font-semibold">Ask the AI Assistant</span>
+          </button>
+        </div>
       )}
 
       {/* Chat Window */}
