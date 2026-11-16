@@ -130,7 +130,7 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'When is Travel Protection billed, and how does compensation work?',
     answer:
-      'Travel Protection is billed in the month the policy is booked (based on the booking date, not the stay date). For microsite bookings, the traveler is charged immediately by RentalGuardian and compensation to the property manager is issued the following month via paper check by default (contact accounting@insurestays.com for ACH). For PMC bookings, the property manager collects funds from the traveler and RentalGuardian bills them that same month—you keep the difference as your compensation.',
+      'Travel Protection is billed in the month the policy is booked (based on the booking date, not the stay date). For microsite bookings, the traveler is charged immediately by RentalGuardian and compensation to the property manager is issued the following month via paper check by default (contact accounting@rentalguardian.com for ACH). For PMC bookings, the property manager collects funds from the traveler and RentalGuardian bills them that same month—you keep the difference as your compensation.',
   },
   {
     question: 'How is Booking Guardian billed, and can it be canceled?',
@@ -160,12 +160,22 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'Who do I contact for billing questions?',
     answer:
-      'For general billing inquiries, contact the RentalGuardian Support team at support@rentalguardian.com. For escalated billing or invoicing requests, contact accounting@insurestays.com. This billing structure applies consistently across all RentalGuardian clients and products.',
+      'For general billing inquiries, contact the RentalGuardian Support team at support@rentalguardian.com. For escalated billing or invoicing requests, contact accounting@rentalguardian.com. This billing structure applies consistently across all RentalGuardian clients and products.',
   },
   {
     question: 'How do I resolve a past-due balance?',
     answer:
       'Sign in to the RentalGuardian portal and click the blue "Pay Now" button on the dashboard to open your running invoice and review the amount due. Submit payment using your enrolled method—credit card or ACH (ACH is strongly recommended; enroll at rentalguardian.com/ach-form). The interactive Past Due Balance Resolution Guide in the Billing and Payments section walks through each step, and you can contact support@rentalguardian.com or (888) 885-5550 (Prompt 2) for help.',
+  },
+  {
+    question: 'Can damage claim payments be made electronically (ACH)?',
+    answer:
+      'Yes. Damage claim payments can be received by paper check or ACH transfer. To change how you receive claim payments, fill out the ACH Form to get paid for claims or email accounting@rentalguardian.com.',
+  },
+  {
+    question: 'Who should I contact with compensation payment or W-9 questions?',
+    answer:
+      'Email the RentalGuardian accounting team at accounting@rentalguardian.com for compensation payment questions, a copy of the W-9 for your RentalGuardian account, or questions about any charge on your bill.',
   },
 ]
 

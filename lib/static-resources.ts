@@ -35,6 +35,6 @@ Key steps and information covered:
 - Click the blue "Pay Now" button on the dashboard to open your running invoice and review the amount due. You can filter transactions by All Due, Past 12 Months, Year to Date, or a custom date range, and review each policy's details.
 - Submit a payment for the outstanding balance using an enrolled payment method (credit card or ACH). RentalGuardian strongly recommends ACH to streamline payments and eliminate paper checks; you can enroll in ACH at rentalguardian.com/ach-form.
 - All payments are processed on the last day of each month, and a sales receipt detailing what was billed is sent to the account's accounting contact.
-- For help resolving a past-due balance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2). For escalated billing or invoicing requests, contact accounting@insurestays.com.`,
+- For help resolving a past-due balance, contact RentalGuardian Support at support@rentalguardian.com or (888) 885-5550 (Prompt 2). For escalated billing or invoicing requests, contact accounting@rentalguardian.com.`,
   },
 ]

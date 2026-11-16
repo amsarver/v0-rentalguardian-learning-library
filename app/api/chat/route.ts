@@ -69,7 +69,8 @@ When answering questions:
 - Reference specific information from the resources when relevant
 - If you don't find the answer in the resources, let the user know
 - Be friendly and professional
-- Keep responses clear and concise`
+- Keep responses clear and concise
+- For any accounting, billing, invoicing, payment, compensation, W-9, or ACH questions, the contact email is accounting@rentalguardian.com. Never give out accounting@insurestays.com.`
       : 'No resources have been uploaded yet. Please let the user know they can upload resources to get answers based on that content.'
   }
 `

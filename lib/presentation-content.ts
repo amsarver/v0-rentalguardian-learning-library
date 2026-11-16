@@ -64,6 +64,14 @@ function titleFromPathname(pathname: string): string {
   )
 }
 
+export const ACCOUNTING_EMAIL = 'accounting@rentalguardian.com'
+
+// Some source documents still list the legacy accounting address; the AI chat
+// and FAQ catalog should always surface the current one.
+function normalizeContacts(text: string): string {
+  return text.replace(/accounting@insurestays\.com/gi, ACCOUNTING_EMAIL)
+}
+
 /**
  * Fetch and extract text from every resource in Blob storage (PowerPoint + PDF).
  * Returns one entry per resource that yielded usable text.
@@ -85,7 +93,10 @@ export async function getAllResourceContent(): Promise<ResourceContent[]> {
         : await extractTextFromPdf(arrayBuffer)
 
       if (text && text.trim()) {
-        results.push({ title: titleFromPathname(blob.pathname), text: text.trim() })
+        results.push({
+          title: titleFromPathname(blob.pathname),
+          text: normalizeContacts(text.trim()),
+        })
       }
     } catch (error) {
       console.error(`[v0] Failed to extract text from ${blob.pathname}:`, error)
