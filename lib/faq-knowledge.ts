@@ -5,7 +5,7 @@ export interface QAItem {
 
 /**
  * Curated FAQs derived from the current RentalGuardian Learning Library
- * resources: "How to Submit a Damage Claim", "Home Guardian Overview", "Travel Guardian
+ * resources: "How to Submit a Damage Claim", "Damage Claims FAQ", "Home Guardian Overview", "Travel Guardian
  * Overview", "Travel Protection FAQ", "Billing Overview", and the "Past Due
  * Balance Resolution Guide".
  * Used as a reliable, up-to-date source for the FAQ section and the chat
@@ -81,6 +81,26 @@ export const CURATED_FAQS: QAItem[] = [
     question: 'What should I know to submit a successful Home Guardian claim?',
     answer:
       'Claims must reflect accidental guest-caused damage tied to a valid reservation, and only 1 claim is allowed per reservation—wait until the guest checks out if there are multiple damages. Smoking or excessive-cleaning claims may require proof of the rental agreement, and you should review your address details if you are not enrolled in ACH payments. Under the principle of indemnity, claims are approved at the replacement cost of the damaged item for like kind, quality, and value—upgrades are allowed but are not covered beyond that amount.',
+  },
+  {
+    question: 'What does the claim examiner look for, and does RentalGuardian decide claims?',
+    answer:
+      'RentalGuardian does not adjudicate claims; it provides the software and support tools, and claim decisions are made by the claim administrator or examiner. Examiners do not inspect damage in person, so they rely on the damage description, photos, paid invoices or receipts, vendor notes, and any repair-scope assessment. Every claim must include at least one photo and one paid invoice or receipt. Photos showing both the close-up damage and the entire item, plus third-party vendor statements (for example, a technician noting a drain pump full of sand), help show the damage was accidental and avoid follow-up requests.',
+  },
+  {
+    question: 'How and when are approved damage claims paid?',
+    answer:
+      'Approved claims are paid by check (the default, sent to the address in your claim contact information) or by ACH if you enroll using the RentalGuardian ACH form. Timeline: the claim is approved; Friday, payments are reported to internal accounting; Monday, accounting reports approvals to corporate accounts payable; Wednesday, accounts payable processes payments; Thursday, payments are issued. Checks can take up to 10 business days to arrive via USPS.',
+  },
+  {
+    question: 'What does the damage protection program not cover (maintenance, cleaning, wear and tear, negligence, or a party)?',
+    answer:
+      'Generally excluded (see the policy for the full list): maintenance (routine upkeep and preventative care of items like toilets, appliances, rugs, or furniture); routine or excessive cleaning from ordinary guest use (an exception may apply for a specific accidental event, such as a spill damaging a light-colored carpet); normal wear and tear from aging, weather, and regular use; negligence; and damage from parties or special events such as weddings, dances, conventions, or other large gatherings, because the program is not event insurance.',
+  },
+  {
+    question: 'Can I submit a damage claim if I am not a direct RentalGuardian client?',
+    answer:
+      'Yes. Work with your PMS on how to start a damage claim for your coverage. For further questions, contact support@rentalguardian.com. Your assigned claim examiner will also reach out if more information is needed.',
   },
   {
     question: 'What travel insurance products does RentalGuardian offer?',
@@ -198,10 +218,14 @@ export function findRelevantFaqs(query: string, limit = 3): QAItem[] {
   if (terms.length === 0) return []
 
   const scored = CURATED_FAQS.map((faq) => {
-    const haystack = `${faq.question} ${faq.answer}`.toLowerCase()
+    const question = faq.question.toLowerCase()
+    const answer = faq.answer.toLowerCase()
     let score = 0
     for (const term of terms) {
-      if (haystack.includes(term)) score += 1
+      // Question matches signal topic intent far more than incidental answer
+      // mentions, so long answers don't crowd out the targeted FAQ.
+      if (question.includes(term)) score += 3
+      else if (answer.includes(term)) score += 1
     }
     return { faq, score }
   })
