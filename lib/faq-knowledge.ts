@@ -5,7 +5,7 @@ export interface QAItem {
 
 /**
  * Curated FAQs derived from the current RentalGuardian Learning Library
- * resources: "How to Submit a Damage Claim", "Home Guardian Overview", "Travel Guardian
+ * resources: "How to Submit a Damage Claim", "Damage Claims FAQ", "Home Guardian Overview", "Travel Guardian
  * Overview", "Travel Protection FAQ", "Billing Overview", and the "Past Due
  * Balance Resolution Guide".
  * Used as a reliable, up-to-date source for the FAQ section and the chat
@@ -83,6 +83,26 @@ export const CURATED_FAQS: QAItem[] = [
       'Claims must reflect accidental guest-caused damage tied to a valid reservation, and only 1 claim is allowed per reservation—wait until the guest checks out if there are multiple damages. Smoking or excessive-cleaning claims may require proof of the rental agreement, and you should review your address details if you are not enrolled in ACH payments. Under the principle of indemnity, claims are approved at the replacement cost of the damaged item for like kind, quality, and value—upgrades are allowed but are not covered beyond that amount.',
   },
   {
+    question: 'What does the claim examiner look for, and does RentalGuardian decide claims?',
+    answer:
+      'RentalGuardian does not adjudicate claims; it provides the software and support tools, and claim decisions are made by the claim administrator or examiner. Examiners do not inspect damage in person, so they rely on the damage description, photos, paid invoices or receipts, vendor notes, and any repair-scope assessment. Every claim must include at least one photo and one paid invoice or receipt. Photos showing both the close-up damage and the entire item, plus third-party vendor statements (for example, a technician noting a drain pump full of sand), help show the damage was accidental and avoid follow-up requests.',
+  },
+  {
+    question: 'How and when are approved damage claims paid?',
+    answer:
+      'Approved claims are paid by check (the default, sent to the address in your claim contact information) or by ACH if you enroll using the RentalGuardian ACH form. Timeline: the claim is approved; Friday, payments are reported to internal accounting; Monday, accounting reports approvals to corporate accounts payable; Wednesday, accounts payable processes payments; Thursday, payments are issued. Checks can take up to 10 business days to arrive via USPS.',
+  },
+  {
+    question: 'What does the damage protection program not cover (maintenance, cleaning, wear and tear, negligence, or a party)?',
+    answer:
+      'Generally excluded (see the policy for the full list): maintenance (routine upkeep and preventative care of items like toilets, appliances, rugs, or furniture); routine or excessive cleaning from ordinary guest use (an exception may apply for a specific accidental event, such as a spill damaging a light-colored carpet); normal wear and tear from aging, weather, and regular use; negligence; and damage from parties or special events such as weddings, dances, conventions, or other large gatherings, because the program is not event insurance.',
+  },
+  {
+    question: 'Can I submit a damage claim if I am not a direct RentalGuardian client?',
+    answer:
+      'Yes. Work with your PMS on how to start a damage claim for your coverage. For further questions, contact support@rentalguardian.com. Your assigned claim examiner will also reach out if more information is needed.',
+  },
+  {
     question: 'What travel insurance products does RentalGuardian offer?',
     answer:
       'There are two products. Base Travel Protection reimburses up to 100% of non-refundable trip costs for Trip Cancellation, Trip Interruption, and Trip Delay across 30+ covered reasons (such as illness, injury, medical emergencies, death in the family, and natural disasters; coverage can vary by state). Cancel For Any Reason (CFAR) is an optional enhancement that reimburses up to 60% of non-refundable trip costs; the traveler must cancel at least 48 hours before check-in, and it is available to U.S. and Canadian residents only (not New York, Puerto Rico, the U.S. Virgin Islands, or international residents).',
@@ -130,7 +150,7 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'When is Travel Protection billed, and how does compensation work?',
     answer:
-      'Travel Protection is billed in the month the policy is booked (based on the booking date, not the stay date). For microsite bookings, the traveler is charged immediately by RentalGuardian and compensation to the property manager is issued the following month via paper check by default (contact accounting@insurestays.com for ACH). For PMC bookings, the property manager collects funds from the traveler and RentalGuardian bills them that same month—you keep the difference as your compensation.',
+      'Travel Protection is billed in the month the policy is booked (based on the booking date, not the stay date). For microsite bookings, the traveler is charged immediately by RentalGuardian and compensation to the property manager is issued the following month via paper check by default (contact accounting@rentalguardian.com for ACH). For PMC bookings, the property manager collects funds from the traveler and RentalGuardian bills them that same month—you keep the difference as your compensation.',
   },
   {
     question: 'How is Booking Guardian billed, and can it be canceled?',
@@ -160,12 +180,22 @@ export const CURATED_FAQS: QAItem[] = [
   {
     question: 'Who do I contact for billing questions?',
     answer:
-      'For general billing inquiries, contact the RentalGuardian Support team at support@rentalguardian.com. For escalated billing or invoicing requests, contact accounting@insurestays.com. This billing structure applies consistently across all RentalGuardian clients and products.',
+      'For general billing inquiries, contact the RentalGuardian Support team at support@rentalguardian.com. For escalated billing or invoicing requests, contact accounting@rentalguardian.com. This billing structure applies consistently across all RentalGuardian clients and products.',
   },
   {
     question: 'How do I resolve a past-due balance?',
     answer:
       'Sign in to the RentalGuardian portal and click the blue "Pay Now" button on the dashboard to open your running invoice and review the amount due. Submit payment using your enrolled method—credit card or ACH (ACH is strongly recommended; enroll at rentalguardian.com/ach-form). The interactive Past Due Balance Resolution Guide in the Billing and Payments section walks through each step, and you can contact support@rentalguardian.com or (888) 885-5550 (Prompt 2) for help.',
+  },
+  {
+    question: 'Can damage claim payments be made electronically (ACH)?',
+    answer:
+      'Yes. Damage claim payments can be received by paper check or ACH transfer. To change how you receive claim payments, fill out the ACH Form to get paid for claims or email accounting@rentalguardian.com.',
+  },
+  {
+    question: 'Who should I contact with compensation payment or W-9 questions?',
+    answer:
+      'Email the RentalGuardian accounting team at accounting@rentalguardian.com for compensation payment questions, a copy of the W-9 for your RentalGuardian account, or questions about any charge on your bill.',
   },
 ]
 
@@ -188,10 +218,14 @@ export function findRelevantFaqs(query: string, limit = 3): QAItem[] {
   if (terms.length === 0) return []
 
   const scored = CURATED_FAQS.map((faq) => {
-    const haystack = `${faq.question} ${faq.answer}`.toLowerCase()
+    const question = faq.question.toLowerCase()
+    const answer = faq.answer.toLowerCase()
     let score = 0
     for (const term of terms) {
-      if (haystack.includes(term)) score += 1
+      // Question matches signal topic intent far more than incidental answer
+      // mentions, so long answers don't crowd out the targeted FAQ.
+      if (question.includes(term)) score += 3
+      else if (answer.includes(term)) score += 1
     }
     return { faq, score }
   })
